@@ -3,7 +3,13 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Heart, ShoppingCart, Minus, Plus } from "lucide-react";
+import {
+  ArrowLeft,
+  Heart,
+  ShoppingCart,
+  Minus,
+  Plus,
+} from "lucide-react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
@@ -47,6 +53,7 @@ export default function ProductDetailsPage({
 
       if (error) {
         console.log(error);
+        toast.error("Product load failed");
         return;
       }
 
@@ -68,7 +75,7 @@ export default function ProductDetailsPage({
       });
     }
 
-    toast.success("Added to cart");
+    toast.success(`${quantity} item added to cart`);
   };
 
   const orderNow = () => {
@@ -113,7 +120,10 @@ export default function ProductDetailsPage({
           <ArrowLeft size={22} />
         </Link>
 
-        <button className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-white shadow">
+        <button
+          type="button"
+          className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-white shadow"
+        >
           <Heart size={20} />
         </button>
       </div>
@@ -137,12 +147,17 @@ export default function ProductDetailsPage({
           </span>
         </div>
 
+        <p className="mt-3 text-xl font-extrabold text-slate-900">
+          Total: ৳{product.price * quantity}
+        </p>
+
         <div className="mt-5">
           <p className="mb-2 font-bold">Size:</p>
 
           <div className="flex gap-3">
             {["M", "L", "XL", "XXL"].map((item) => (
               <button
+                type="button"
                 key={item}
                 onClick={() => setSize(item)}
                 className={`h-10 w-12 border font-bold ${
@@ -162,6 +177,7 @@ export default function ProductDetailsPage({
 
           <div className="flex w-36 items-center border">
             <button
+              type="button"
               onClick={() => setQuantity((q) => Math.max(1, q - 1))}
               className="flex h-11 w-11 items-center justify-center border-r"
             >
@@ -173,6 +189,7 @@ export default function ProductDetailsPage({
             </div>
 
             <button
+              type="button"
               onClick={() => setQuantity((q) => q + 1)}
               className="flex h-11 w-11 items-center justify-center border-l"
             >
@@ -183,6 +200,7 @@ export default function ProductDetailsPage({
 
         <div className="mt-6 grid grid-cols-2 gap-3">
           <button
+            type="button"
             onClick={orderNow}
             className="h-14 rounded-xl border border-orange-500 font-bold text-orange-500"
           >
@@ -190,6 +208,7 @@ export default function ProductDetailsPage({
           </button>
 
           <button
+            type="button"
             onClick={addToCart}
             className="flex h-14 items-center justify-center gap-2 rounded-xl bg-orange-500 font-bold text-white"
           >
@@ -199,6 +218,7 @@ export default function ProductDetailsPage({
         </div>
 
         <button
+          type="button"
           onClick={whatsappOrder}
           className="mt-3 h-14 w-full rounded-xl bg-green-500 font-bold text-white"
         >
