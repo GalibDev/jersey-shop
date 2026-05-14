@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 import { useCartStore } from "@/store/cartStore";
@@ -10,7 +11,11 @@ import { supabase } from "@/lib/supabase";
 import BottomNav from "@/components/BottomNav";
 
 export default function CheckoutPage() {
+  const router = useRouter();
+
   const cart = useCartStore((state) => state.cart);
+  const clearCart = useCartStore((state) => state.clearCart);
+
   const total = cart.reduce((acc, item) => acc + item.price, 0);
 
   const [name, setName] = useState("");
@@ -35,26 +40,23 @@ export default function CheckoutPage() {
         address,
         products: cart,
         total,
+        status: "Pending",
       },
     ]);
 
     setLoading(false);
 
     if (error) {
-      toast.error("Order failed");
       console.log(error);
+      toast.error(error.message || "Order failed");
       return;
     }
 
     toast.success("Order placed successfully");
 
-    const productList = cart
-      .map((item, index) => `${index + 1}. ${item.name} - ৳${item.price}`)
-      .join("%0A");
+    clearCart();
 
-    const message = `New Order%0A%0AName: ${name}%0APhone: ${phone}%0AAddress: ${address}%0A%0AProducts:%0A${productList}%0A%0ATotal: ৳${total}`;
-
-    window.open(`https://wa.me/8801XXXXXXXXX?text=${message}`, "_blank");
+    router.push("/");
   };
 
   return (
@@ -99,14 +101,20 @@ export default function CheckoutPage() {
 
         <div className="rounded-3xl bg-white p-5 shadow-sm">
           <div className="mb-3 flex items-center justify-between">
-            <span className="font-bold text-slate-700">Total Products</span>
-            <span className="font-extrabold">{cart.length}</span>
+            <span className="font-bold text-slate-700">
+              Total Products
+            </span>
+
+            <span className="font-extrabold">
+              {cart.length}
+            </span>
           </div>
 
           <div className="flex items-center justify-between">
             <span className="text-lg font-bold text-slate-700">
               Total Price
             </span>
+
             <span className="text-3xl font-extrabold text-orange-500">
               ৳{total}
             </span>
