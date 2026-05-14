@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Heart, ShoppingCart, Minus, Plus } from "lucide-react";
@@ -26,9 +26,9 @@ type Product = {
 export default function ProductDetailsPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
-  const { id } = use(params);
+  const id = params.id;
   const router = useRouter();
 
   const [product, setProduct] = useState<Product | null>(null);
@@ -39,11 +39,16 @@ export default function ProductDetailsPage({
 
   useEffect(() => {
     const getProduct = async () => {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("products")
         .select("*")
         .eq("id", Number(id))
         .single();
+
+      if (error) {
+        console.log(error);
+        return;
+      }
 
       setProduct(data);
     };
@@ -74,7 +79,9 @@ export default function ProductDetailsPage({
   const whatsappOrder = () => {
     if (!product) return;
 
-    const message = `New Order%0A%0AProduct: ${product.name}%0ASize: ${size}%0AQuantity: ${quantity}%0APrice: ৳${product.price}%0ATotal: ৳${product.price * quantity}`;
+    const message = `New Order%0A%0AProduct: ${product.name}%0ASize: ${size}%0AQuantity: ${quantity}%0APrice: ৳${product.price}%0ATotal: ৳${
+      product.price * quantity
+    }`;
 
     window.open(`https://wa.me/8801XXXXXXXXX?text=${message}`, "_blank");
   };
