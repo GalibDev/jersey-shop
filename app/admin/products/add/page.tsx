@@ -22,54 +22,75 @@ export default function AddProductPage() {
   const [category, setCategory] = useState("");
   const [stock, setStock] = useState("");
 
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [description, setDescription] = useState("");
+  const [details, setDetails] = useState("");
+
+  const [mainImageFile, setMainImageFile] = useState<File | null>(null);
+  const [extraImageFiles, setExtraImageFiles] = useState<File[]>([]);
+
+  const uploadImage = async (file: File) => {
+    const fileName = `${Date.now()}-${file.name}`;
+
+    const { error } = await supabase.storage
+      .from("products")
+      .upload(fileName, file);
+
+    if (error) {
+      throw error;
+    }
+
+    return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/${fileName}`;
+  };
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!imageFile) {
-      toast.error("Select image");
+    if (!mainImageFile) {
+      toast.error("Select main image");
       return;
     }
 
     setLoading(true);
 
-    const fileName = `${Date.now()}-${imageFile.name}`;
+    try {
+      const mainImageUrl = await uploadImage(mainImageFile);
 
-    const { error: uploadError } = await supabase.storage
-      .from("products")
-      .upload(fileName, imageFile);
+      const extraImageUrls = await Promise.all(
+        extraImageFiles.map((file) => uploadImage(file))
+      );
 
-    if (uploadError) {
-      setLoading(false);
+      const allImages = [mainImageUrl, ...extraImageUrls];
+
+      const { error } = await supabase.from("products").insert([
+        {
+          name,
+          image: mainImageUrl,
+          images: allImages,
+          price: Number(price),
+          old_price: Number(oldPrice),
+          discount,
+          badge,
+          category,
+          stock: Number(stock),
+          description,
+          details,
+        },
+      ]);
+
+      if (error) {
+        toast.error(error.message);
+        setLoading(false);
+        return;
+      }
+
+      toast.success("Product added");
+      router.push("/admin/products");
+    } catch (error) {
+      console.log(error);
       toast.error("Image upload failed");
-      return;
     }
-
-    const imageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/${fileName}`;
-
-    const { error } = await supabase.from("products").insert([
-      {
-        name,
-        image: imageUrl,
-        price: Number(price),
-        old_price: Number(oldPrice),
-        discount,
-        badge,
-        category,
-        stock: Number(stock),
-      },
-    ]);
 
     setLoading(false);
-
-    if (error) {
-      toast.error("Product add failed");
-      return;
-    }
-
-    toast.success("Product added");
-    router.push("/admin/products");
   };
 
   return (
@@ -95,13 +116,35 @@ export default function AddProductPage() {
             required
           />
 
-          <input
-            type="file"
-            accept="image/*"
-            className="w-full rounded-2xl border bg-white p-4"
-            onChange={(e) => setImageFile(e.target.files?.[0] || null)}
-            required
-          />
+          <div className="rounded-2xl border bg-white p-4">
+            <p className="mb-2 font-bold text-slate-800">Main Image</p>
+
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setMainImageFile(e.target.files?.[0] || null)}
+              required
+            />
+          </div>
+
+          <div className="rounded-2xl border bg-white p-4">
+            <p className="mb-2 font-bold text-slate-800">
+              Extra Images
+            </p>
+
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={(e) =>
+                setExtraImageFiles(Array.from(e.target.files || []))
+              }
+            />
+
+            <p className="mt-2 text-xs text-slate-500">
+              Multiple image select korte parba.
+            </p>
+          </div>
 
           <input
             className="h-14 w-full rounded-2xl border px-4 outline-none"
@@ -144,6 +187,20 @@ export default function AddProductPage() {
             placeholder="Stock"
             value={stock}
             onChange={(e) => setStock(e.target.value)}
+          />
+
+          <textarea
+            className="min-h-[100px] w-full rounded-2xl border p-4 outline-none"
+            placeholder="Short product description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+
+          <textarea
+            className="min-h-[150px] w-full rounded-2xl border p-4 outline-none"
+            placeholder="Product details. Example: ✓ Premium Fabric&#10;✓ 170 GSM&#10;✓ Size M, L, XL"
+            value={details}
+            onChange={(e) => setDetails(e.target.value)}
           />
 
           <button

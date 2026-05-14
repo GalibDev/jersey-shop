@@ -21,10 +21,13 @@ type Product = {
   id: number;
   name: string;
   image: string;
+  images?: string[];
   price: number;
   old_price: number;
   category: string;
   stock: number;
+  description?: string;
+  details?: string;
 };
 
 export default function ProductDetailsPage() {
@@ -34,6 +37,7 @@ export default function ProductDetailsPage() {
   const id = Number(params.id);
 
   const [product, setProduct] = useState<Product | null>(null);
+  const [mainImage, setMainImage] = useState("");
   const [loading, setLoading] = useState(true);
 
   const [size, setSize] = useState("M");
@@ -42,14 +46,12 @@ export default function ProductDetailsPage() {
   const addToCartStore = useCartStore((state) => state.addToCart);
 
   useEffect(() => {
-    if (!id || isNaN(id)) {
-      toast.error("Invalid product id");
-      setLoading(false);
-      return;
-    }
-
     const getProduct = async () => {
-      setLoading(true);
+      if (!id || isNaN(id)) {
+        toast.error("Invalid product id");
+        setLoading(false);
+        return;
+      }
 
       const { data, error } = await supabase
         .from("products")
@@ -58,13 +60,19 @@ export default function ProductDetailsPage() {
         .single();
 
       if (error) {
-        console.log(error);
         toast.error(error.message);
         setLoading(false);
         return;
       }
 
       setProduct(data);
+
+      const firstImage =
+        data.images && data.images.length > 0
+          ? data.images[0]
+          : data.image;
+
+      setMainImage(firstImage);
       setLoading(false);
     };
 
@@ -78,7 +86,7 @@ export default function ProductDetailsPage() {
       addToCartStore({
         id: product.id,
         name: `${product.name} (${size})`,
-        image: product.image,
+        image: mainImage || product.image,
         price: product.price,
       });
     }
@@ -91,24 +99,12 @@ export default function ProductDetailsPage() {
     router.push("/checkout");
   };
 
-  const whatsappOrder = () => {
-    if (!product) return;
-
-    const message = `
-New Order
-
-Product: ${product.name}
-Size: ${size}
-Quantity: ${quantity}
-Price: ৳${product.price}
-Total: ৳${product.price * quantity}
-`;
-
-    window.open(
-      `https://wa.me/8801843313291?text=${encodeURIComponent(message)}`,
-      "_blank"
-    );
-  };
+  const galleryImages =
+    product?.images && product.images.length > 0
+      ? product.images
+      : product?.image
+      ? [product.image]
+      : [];
 
   if (loading) {
     return (
@@ -136,14 +132,33 @@ Total: ৳${product.price * quantity}
 
   return (
     <main className="min-h-screen bg-gray-100 pb-32">
-      <div className="relative bg-white">
-        <div className="relative h-[350px] w-full">
+      <div className="bg-white p-4">
+        <div className="relative h-[360px] w-full overflow-hidden rounded-2xl bg-white">
           <Image
-            src={product.image}
+            src={mainImage}
             alt={product.name}
             fill
-            className="object-contain p-4"
+            className="object-contain"
           />
+        </div>
+
+        <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
+          {galleryImages.map((img, index) => (
+            <button
+              key={index}
+              onClick={() => setMainImage(img)}
+              className={`relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border bg-white ${
+                mainImage === img ? "border-4 border-orange-500" : ""
+              }`}
+            >
+              <Image
+                src={img}
+                alt={`Product image ${index + 1}`}
+                fill
+                className="object-contain p-1"
+              />
+            </button>
+          ))}
         </div>
 
         <Link
@@ -242,25 +257,23 @@ Total: ৳${product.price * quantity}
           </button>
         </div>
 
-        <button
-          onClick={whatsappOrder}
-          className="mt-4 h-14 w-full rounded-xl bg-green-500 text-lg font-bold text-white"
-        >
-          WhatsApp Order
-        </button>
-
         <div className="mt-8 rounded-2xl bg-gray-100 p-5">
+          <h2 className="mb-4 text-2xl font-extrabold">
+            Product Description
+          </h2>
+
+          <p className="leading-7 text-slate-700">
+            {product.description || "No description added."}
+          </p>
+        </div>
+
+        <div className="mt-5 rounded-2xl bg-gray-100 p-5">
           <h2 className="mb-4 text-2xl font-extrabold">
             Product Details
           </h2>
 
-          <div className="space-y-2 text-[16px] leading-7 text-slate-700">
-            <p>✓ High-Quality Sublimation Print</p>
-            <p>✓ Premium Micro Fabric</p>
-            <p>✓ 170 GSM</p>
-            <p>✓ Polo shirt</p>
-            <p>✓ Top-Notch Stitching Finish</p>
-            <p>✓ Size: M, L, XL, XXL</p>
+          <div className="space-y-2 whitespace-pre-line text-[16px] leading-7 text-slate-700">
+            {product.details || "No details added."}
           </div>
         </div>
       </section>
