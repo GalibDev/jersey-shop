@@ -10,10 +10,9 @@ type CartItem = {
 
 type CartStore = {
   cart: CartItem[];
-
-  addToCart: (product: CartItem) => void;
-
+  addToCart: (item: CartItem) => void;
   removeFromCart: (id: number) => void;
+  clearCart: () => void;
 };
 
 export const useCartStore = create<CartStore>()(
@@ -21,17 +20,21 @@ export const useCartStore = create<CartStore>()(
     (set) => ({
       cart: [],
 
-      addToCart: (product) =>
+      addToCart: (item) =>
         set((state) => ({
-          cart: [...state.cart, product],
+          cart: [...state.cart, item],
         })),
 
       removeFromCart: (id) =>
         set((state) => ({
           cart: state.cart.filter((item) => item.id !== id),
         })),
-    }),
 
+      clearCart: () =>
+        set({
+          cart: [],
+        }),
+    }),
     {
       name: "jersey-cart",
     }
