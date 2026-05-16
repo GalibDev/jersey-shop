@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Jersey Shop",
-  description: "Premium Football Jersey Shop",
-  manifest: "/manifest.json",
-  themeColor: "#f97316",
+  title: "NOVALO",
+  description: "Premium Jersey Store",
+
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
@@ -16,10 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        {children}
-        <Toaster position="top-center" />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
