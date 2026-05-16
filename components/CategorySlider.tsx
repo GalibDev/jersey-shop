@@ -1,31 +1,39 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import Image from "next/image";
 
-const categories = [
-  {
-    id: 1,
-    name: "Brazil",
-    image: "/products/brazil-yellow.jpg",
-  },
-  {
-    id: 2,
-    name: "Argentina",
-    image: "/products/argentina.jpg",
-  },
-  {
-    id: 3,
-    name: "Portugal",
-    image: "/products/brazil-black.jpg",
-  },
-  {
-    id: 4,
-    name: "World Cup",
-    image: "/products/brazil-yellow.jpg",
-  },
-];
+import { supabase } from "@/lib/supabase";
+
+type Category = {
+  id: number;
+  name: string;
+  image: string;
+  is_active: boolean;
+};
 
 export default function CategorySlider() {
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    const getCategories = async () => {
+      const { data } = await supabase
+        .from("categories")
+        .select("*")
+        .eq("is_active", true)
+        .order("id", { ascending: false });
+
+      setCategories(data || []);
+    };
+
+    getCategories();
+  }, []);
+
+  if (categories.length === 0) {
+    return null;
+  }
+
   return (
     <section className="mt-6">
       <div className="mb-4 flex items-center justify-between px-4">
