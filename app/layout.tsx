@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
+import { Toaster } from "react-hot-toast";
+
 import "./globals.css";
+
+import VisitorTracker from "@/components/VisitorTracker";
 
 export const metadata: Metadata = {
   title: "NOVALO",
@@ -19,7 +23,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <VisitorTracker />
+
+        {children}
+
+        <Toaster position="top-center" />
+      </body>
     </html>
   );
 }

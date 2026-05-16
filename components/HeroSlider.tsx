@@ -1,46 +1,53 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-
-import {
-  Autoplay,
-  Pagination,
-  EffectFade,
-} from "swiper/modules";
+import { Autoplay, Pagination, EffectFade } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 
-const slides = [
-  {
-    id: 1,
-    image: "/products/brazil-yellow.jpg",
-    title: "Official Brazil Jerseys",
-  },
-  {
-    id: 2,
-    image: "/products/argentina.jpg",
-    title: "Argentina Home Kit",
-  },
-  {
-    id: 3,
-    image: "/products/brazil-black.jpg",
-    title: "Premium Football Collection",
-  },
-];
+import { supabase } from "@/lib/supabase";
+
+type Slider = {
+  id: number;
+  title: string;
+  subtitle: string;
+  image: string;
+  button_text: string;
+  link: string;
+  is_active: boolean;
+};
 
 export default function HeroSlider() {
+  const [sliders, setSliders] = useState<Slider[]>([]);
+
+  useEffect(() => {
+    const getSliders = async () => {
+      const { data } = await supabase
+        .from("sliders")
+        .select("*")
+        .eq("is_active", true)
+        .order("id", { ascending: false });
+
+      setSliders(data || []);
+    };
+
+    getSliders();
+  }, []);
+
+  if (sliders.length === 0) {
+    return null;
+  }
+
   return (
     <section className="px-4 pt-4">
       <Swiper
-        modules={[
-          Autoplay,
-          Pagination,
-          EffectFade,
-        ]}
+        modules={[Autoplay, Pagination, EffectFade]}
         autoplay={{
           delay: 3000,
           disableOnInteraction: false,
@@ -53,7 +60,7 @@ export default function HeroSlider() {
         loop
         className="rounded-[30px]"
       >
-        {slides.map((slide) => (
+        {sliders.map((slide) => (
           <SwiperSlide key={slide.id}>
             <div className="relative h-[280px] overflow-hidden rounded-[30px]">
               <Image
@@ -61,23 +68,25 @@ export default function HeroSlider() {
                 alt={slide.title}
                 fill
                 priority
-                className="animate-[zoom_6s_linear_infinite] object-cover"
+                className="object-cover"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
               <div className="absolute bottom-6 left-6 z-10 max-w-[260px] text-white">
                 <p className="text-xs font-bold uppercase tracking-[4px] text-orange-300">
-                  FIFA WORLD CUP 2026
+                  {slide.subtitle}
                 </p>
 
                 <h1 className="mt-3 text-3xl font-extrabold leading-tight">
                   {slide.title}
                 </h1>
 
-                <button className="mt-5 rounded-2xl bg-orange-500 px-6 py-3 text-sm font-bold text-white shadow-lg">
-                  Order Now
-                </button>
+                <Link href={slide.link || "/"}>
+                  <button className="mt-5 rounded-2xl bg-orange-500 px-6 py-3 text-sm font-bold text-white shadow-lg">
+                    {slide.button_text || "Order Now"}
+                  </button>
+                </Link>
               </div>
             </div>
           </SwiperSlide>

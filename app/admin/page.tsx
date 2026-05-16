@@ -12,6 +12,9 @@ import {
   DollarSign,
   Megaphone,
   Star,
+  LayoutGrid,
+  ImageIcon,
+  Eye,
 } from "lucide-react";
 
 import { useRouter } from "next/navigation";
@@ -39,6 +42,9 @@ export default function AdminDashboard() {
   const [pendingOrders, setPendingOrders] =
     useState(0);
 
+  const [visitorCount, setVisitorCount] =
+    useState(0);
+
   const [recentOrders, setRecentOrders] =
     useState<any[]>([]);
 
@@ -56,6 +62,11 @@ export default function AdminDashboard() {
       .from("orders")
       .select("*");
 
+    const { data: visitors } =
+      await supabase
+        .from("visitors")
+        .select("*");
+
     const { data: latestOrders } =
       await supabase
         .from("orders")
@@ -68,6 +79,8 @@ export default function AdminDashboard() {
     setProductsCount(products?.length || 0);
 
     setOrdersCount(orders?.length || 0);
+
+    setVisitorCount(visitors?.length || 0);
 
     const totalRevenue =
       orders?.reduce(
@@ -96,6 +109,7 @@ export default function AdminDashboard() {
   return (
     <AdminGuard>
       <main className="min-h-screen bg-gray-100 p-4">
+        {/* HEADER */}
         <div className="mb-8 flex items-center justify-between">
           <div>
             <p className="text-sm font-bold text-orange-500">
@@ -115,6 +129,7 @@ export default function AdminDashboard() {
           </button>
         </div>
 
+        {/* STATS */}
         <div className="mb-6 grid grid-cols-2 gap-4">
           <div className="rounded-3xl bg-white p-5 shadow-sm">
             <Package
@@ -175,8 +190,24 @@ export default function AdminDashboard() {
               Pending
             </p>
           </div>
+
+          <div className="rounded-3xl bg-white p-5 shadow-sm">
+            <Eye
+              size={30}
+              className="text-cyan-500"
+            />
+
+            <h2 className="mt-4 text-2xl font-extrabold">
+              {visitorCount}
+            </h2>
+
+            <p className="text-sm text-slate-500">
+              Visitors
+            </p>
+          </div>
         </div>
 
+        {/* ADMIN OPTIONS */}
         <div className="grid grid-cols-2 gap-4">
           <Link href="/admin/products">
             <div className="rounded-3xl bg-white p-5 shadow-sm">
@@ -245,8 +276,43 @@ export default function AdminDashboard() {
               </p>
             </div>
           </Link>
+
+          <Link href="/admin/categories">
+            <div className="rounded-3xl bg-white p-5 shadow-sm">
+              <LayoutGrid
+                size={34}
+                className="text-pink-500"
+              />
+
+              <h2 className="mt-4 text-lg font-extrabold text-slate-900">
+                Categories
+              </h2>
+
+              <p className="mt-1 text-sm text-slate-500">
+                Manage categories
+              </p>
+            </div>
+          </Link>
+
+          <Link href="/admin/sliders">
+            <div className="rounded-3xl bg-white p-5 shadow-sm">
+              <ImageIcon
+                size={34}
+                className="text-cyan-500"
+              />
+
+              <h2 className="mt-4 text-lg font-extrabold text-slate-900">
+                Sliders
+              </h2>
+
+              <p className="mt-1 text-sm text-slate-500">
+                Homepage sliders
+              </p>
+            </div>
+          </Link>
         </div>
 
+        {/* RECENT ORDERS */}
         <div className="mt-8">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-2xl font-extrabold text-slate-900">
