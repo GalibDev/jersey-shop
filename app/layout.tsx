@@ -6,7 +6,9 @@ export const metadata: Metadata = {
   description: "Premium Jersey Store",
 
   icons: {
-    icon: "/favicon.png",
+    icon: "/favicon.png?v=999",
+    shortcut: "/favicon.png?v=999",
+    apple: "/favicon.png?v=999",
   },
 };
 
