@@ -1,134 +1,217 @@
 "use client";
 
 import Link from "next/link";
+
 import {
   MessageCircle,
   Mail,
   Phone,
   MapPin,
+  Globe,
 } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="mt-10 bg-slate-950 text-white">
-      <div className="mx-auto max-w-7xl px-5 py-10">
+    <footer className="mt-16 bg-slate-950 text-white">
+      <div className="mx-auto max-w-7xl px-5 py-14">
         <div className="grid gap-10 md:grid-cols-4">
+          {/* LOGO + ABOUT */}
           <div>
-            <h2 className="text-3xl font-extrabold text-orange-500">
-              NOVALO
-            </h2>
+            <Link href="/" className="inline-block">
+              <h1 className="text-4xl font-extrabold tracking-wide">
+                <span className="text-white">NOVA</span>
+                <span className="text-orange-500">LO</span>
+              </h1>
+            </Link>
 
-            <p className="mt-4 text-sm leading-7 text-slate-300">
-              Premium football jerseys, polo shirts, combo offers and
-              sports fashion collections with top quality fabric and
-              modern designs.
+            <p className="mt-5 text-sm leading-7 text-gray-400">
+              Premium football jerseys, fan edition kits,
+              player edition kits and exclusive football
+              collections at the best price in Bangladesh.
             </p>
 
-            <div className="mt-5 flex gap-3">
+            <div className="mt-6 flex items-center gap-4">
+              {/* FACEBOOK */}
               <a
-                href="https://www.facebook.com/share/1GwtYpupEE/"
+                href="https://facebook.com/"
                 target="_blank"
-                className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-800 text-sm font-extrabold transition hover:bg-blue-600"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-sm font-extrabold transition hover:scale-110 hover:bg-blue-600"
               >
                 f
               </a>
 
+              {/* INSTAGRAM */}
               <a
                 href="https://instagram.com/"
                 target="_blank"
-                className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-800 text-sm font-extrabold transition hover:bg-pink-500"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-sm font-extrabold transition hover:scale-110 hover:bg-pink-500"
               >
                 ig
               </a>
 
+              {/* WHATSAPP */}
               <a
-                href="https://wa.me/8801843313291"
+                href="https://wa.me/8801577088342"
                 target="_blank"
-                className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-800 transition hover:bg-green-500"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 transition hover:scale-110 hover:bg-green-500"
               >
                 <MessageCircle size={20} />
               </a>
             </div>
           </div>
 
+          {/* QUICK LINKS */}
           <div>
-            <h3 className="text-xl font-bold">Quick Links</h3>
+            <h2 className="mb-5 text-xl font-extrabold">
+              Quick Links
+            </h2>
 
-            <div className="mt-5 flex flex-col gap-3 text-slate-300">
-              <Link href="/" className="hover:text-orange-500">
+            <div className="space-y-4">
+              <Link
+                href="/"
+                className="block text-gray-400 transition hover:text-orange-500"
+              >
                 Home
               </Link>
 
-              <Link href="/cart" className="hover:text-orange-500">
+              <Link
+                href="/cart"
+                className="block text-gray-400 transition hover:text-orange-500"
+              >
                 Cart
               </Link>
 
               <Link
-                href="/customer/profile"
-                className="hover:text-orange-500"
+                href="/review"
+                className="block text-gray-400 transition hover:text-orange-500"
               >
-                Profile
+                Give Review
               </Link>
 
               <Link
                 href="/customer/login"
-                className="hover:text-orange-500"
+                className="block text-gray-400 transition hover:text-orange-500"
               >
                 Customer Login
               </Link>
 
               <Link
                 href="/admin/login"
-                className="hover:text-orange-500"
+                className="block text-gray-400 transition hover:text-orange-500"
               >
                 Admin Login
               </Link>
-              <Link href="/review" className="hover:text-orange-500">
-  Give Review
-</Link>
             </div>
           </div>
 
+          {/* CATEGORIES */}
           <div>
-            <h3 className="text-xl font-bold">About Us</h3>
+            <h2 className="mb-5 text-xl font-extrabold">
+              Categories
+            </h2>
 
-            <div className="mt-5 space-y-4 text-slate-300">
-              <p className="leading-7">
-                We provide premium quality football jerseys and fashion
-                collections all over Bangladesh.
-              </p>
+            <div className="space-y-4 text-gray-400">
+              <p>Player Edition</p>
 
-              <p className="leading-7">
-                Fast delivery, trusted quality and stylish collections
-                are our priority.
-              </p>
+              <p>Fan Edition</p>
+
+              <p>World Cup 2026</p>
+
+              <p>Retro Jerseys</p>
             </div>
           </div>
 
+          {/* CONTACT */}
           <div>
-            <h3 className="text-xl font-bold">Contact</h3>
+            <h2 className="mb-5 text-xl font-extrabold">
+              Contact Us
+            </h2>
 
-            <div className="mt-5 space-y-4 text-slate-300">
+            <div className="space-y-5">
               <div className="flex items-start gap-3">
-                <Phone size={18} className="mt-1 text-orange-500" />
-                <span>01843313291</span>
+                <Phone
+                  size={20}
+                  className="mt-1 text-orange-500"
+                />
+
+                <a
+                  href="tel:+8801577088342"
+                  className="font-semibold hover:text-orange-500"
+                >
+                  +8801577088342
+                </a>
               </div>
 
               <div className="flex items-start gap-3">
-                <Mail size={18} className="mt-1 text-orange-500" />
-                <span>support@apoonpoint.com</span>
+                <Mail
+                  size={20}
+                  className="mt-1 text-orange-500"
+                />
+
+                <a
+                  href="mailto:novalo@gmail.com"
+                  className="font-semibold hover:text-orange-500"
+                >
+                  novalo@gmail.com
+                </a>
               </div>
 
               <div className="flex items-start gap-3">
-                <MapPin size={18} className="mt-1 text-orange-500" />
-                <span>Mohammadpur, Dhaka, Bangladesh</span>
+                <MapPin
+                  size={20}
+                  className="mt-1 text-orange-500"
+                />
+
+                <p className="font-semibold">
+                  Dhaka, Bangladesh
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-10 border-t border-slate-800 pt-5 text-center text-sm text-slate-400">
-          © {new Date().getFullYear()} APOONPOINT. All rights reserved.
+        {/* BOTTOM */}
+        <div className="mt-14 border-t border-white/10 pt-6">
+          <div className="flex flex-col items-center gap-5">
+            {/* DEVELOPER NAME */}
+            <p className="text-center text-sm font-bold tracking-[4px] text-orange-500">
+              DEVELOPED BY MIRZA GALIB
+            </p>
+
+            {/* BUTTONS */}
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <a
+                href="https://wa.me/8801577088342"
+                target="_blank"
+                className="rounded-full bg-green-500 px-5 py-3 text-sm font-bold text-white transition hover:scale-105"
+              >
+                Contact With Developer
+              </a>
+
+              <a
+                href="https://www.facebook.com/share/1JNbdzkvwr/?mibextid=wwXIfr"
+                target="_blank"
+                className="rounded-full bg-blue-600 px-5 py-3 text-sm font-bold text-white transition hover:scale-105"
+              >
+                Developer Facebook
+              </a>
+
+              <a
+                href="https://your-portfolio-link.com"
+                target="_blank"
+                className="flex items-center gap-2 rounded-full bg-orange-500 px-5 py-3 text-sm font-bold text-white transition hover:scale-105"
+              >
+                <Globe size={17} />
+                Portfolio
+              </a>
+            </div>
+
+            {/* COPYRIGHT */}
+            <p className="text-xs text-gray-500">
+              © {new Date().getFullYear()} NOVALO.
+              All rights reserved.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
