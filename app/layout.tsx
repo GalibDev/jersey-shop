@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
+
 import { Toaster } from "react-hot-toast";
+
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import "./globals.css";
 
 import VisitorTracker from "@/components/VisitorTracker";
+
+import MetaPixel from "@/components/MetaPixel";
 
 export const metadata: Metadata = {
   title: "NOVALO",
@@ -24,12 +29,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <MetaPixel />
+
         <VisitorTracker />
 
         {children}
 
         <Toaster position="top-center" />
       </body>
+
+      {/* GOOGLE ANALYTICS */}
+      <GoogleAnalytics gaId="G-6GLGQBQZJJ" />
     </html>
   );
 }
