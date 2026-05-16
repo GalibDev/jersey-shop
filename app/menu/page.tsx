@@ -29,7 +29,10 @@ const menuItems = [
     title: "Profile",
     link: "/profile",
   },
-
+  {
+  title: "Give Review",
+  link: "/review",
+},
 {
   title: "Admin Login",
   link: "/admin/login",
