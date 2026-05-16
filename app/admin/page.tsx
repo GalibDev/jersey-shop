@@ -10,6 +10,8 @@ import {
   Users,
   LogOut,
   DollarSign,
+  Megaphone,
+  Star,
 } from "lucide-react";
 
 import { useRouter } from "next/navigation";
@@ -206,6 +208,40 @@ export default function AdminDashboard() {
 
               <p className="mt-1 text-sm text-slate-500">
                 Customer orders
+              </p>
+            </div>
+          </Link>
+
+          <Link href="/admin/notices">
+            <div className="rounded-3xl bg-white p-5 shadow-sm">
+              <Megaphone
+                size={34}
+                className="text-purple-500"
+              />
+
+              <h2 className="mt-4 text-lg font-extrabold text-slate-900">
+                Notice Bar
+              </h2>
+
+              <p className="mt-1 text-sm text-slate-500">
+                Manage top notice
+              </p>
+            </div>
+          </Link>
+
+          <Link href="/admin/reviews">
+            <div className="rounded-3xl bg-white p-5 shadow-sm">
+              <Star
+                size={34}
+                className="text-yellow-500"
+              />
+
+              <h2 className="mt-4 text-lg font-extrabold text-slate-900">
+                Reviews
+              </h2>
+
+              <p className="mt-1 text-sm text-slate-500">
+                Customer ratings
               </p>
             </div>
           </Link>
