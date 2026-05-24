@@ -104,4 +104,13 @@ types/        TypeScript type definitions
 
 ## Author
 
-GalibDev
+**GalibDev**
+
+- GitHub: [https://github.com/GalibDev](https://github.com/GalibDev)
+- Repository: [https://github.com/GalibDev/jersey-shop](https://github.com/GalibDev/jersey-shop)
+
+## License
+
+This project is licensed under the MIT License.
+
+Copyright (c) 2026 GalibDev.
