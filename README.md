@@ -1,36 +1,107 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NOVALO Jersey Store
+
+NOVALO Jersey Store is a responsive e-commerce web application for browsing and ordering premium football jerseys. The project includes product listing, product details, cart, wishlist, checkout, order tracking, customer authentication, and an admin dashboard for managing store content.
+
+## Live Demo
+
+[https://www.novalo.xyz/](https://www.novalo.xyz/)
+
+## GitHub Repository
+
+[https://github.com/GalibDev/jersey-shop](https://github.com/GalibDev/jersey-shop)
+
+## Features
+
+- Responsive football jersey shopping experience
+- Product listing with search and quick view
+- Product details page with image gallery, size, and quantity selection
+- Cart and wishlist functionality
+- Checkout flow with customer billing and payment information
+- Order tracking by phone number
+- Customer registration, login, and profile page
+- Admin authentication and protected admin dashboard
+- Admin product, category, slider, notice, and order management
+- Visitor tracking
+- PWA manifest setup
+- Google Analytics integration
+
+## Technologies Used
+
+- Next.js
+- React.js
+- TypeScript
+- Tailwind CSS
+- Supabase
+- Zustand
+
+## My Role
+
+Full Stack Developer
+
+- Designed and developed the frontend user interface
+- Built product, cart, checkout, wishlist, and order tracking flows
+- Implemented customer authentication and profile pages
+- Developed the admin dashboard and management pages
+- Integrated Supabase for authentication, database, and storage
+- Added responsive layouts and e-commerce focused UI components
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js
+- npm
+- Supabase project credentials
+
+### Installation
+
+```bash
+git clone https://github.com/GalibDev/jersey-shop.git
+cd jersey-shop
+npm install
+```
+
+### Environment Variables
+
+Create a `.env.local` file in the project root and add your Supabase credentials:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+### Run Locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+```
 
-## Learn More
+### Lint
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run lint
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```text
+app/          Application routes and pages
+components/   Reusable UI components
+data/         Static product/category data
+lib/          Supabase client and shared utilities
+public/       Static assets and PWA files
+store/        Zustand cart and wishlist stores
+types/        TypeScript type definitions
+```
 
-## Deploy on Vercel
+## Author
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+GalibDev
