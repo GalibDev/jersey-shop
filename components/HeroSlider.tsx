@@ -62,13 +62,13 @@ export default function HeroSlider() {
       >
         {sliders.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <div className="relative h-[280px] overflow-hidden rounded-3xl sm:h-[360px] lg:h-[430px]">
+            <div className="relative aspect-[16/9] min-h-[220px] overflow-hidden rounded-3xl bg-slate-900 sm:min-h-[360px] lg:min-h-[430px]">
               <Image
                 src={slide.image}
                 alt={slide.title}
                 fill
                 priority
-                className="object-cover"
+                className="object-contain"
               />
 
               <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-black/10" />
