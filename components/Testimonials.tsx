@@ -27,7 +27,7 @@ const reviews = [
 
 export default function Testimonials() {
   return (
-    <section className="mt-8 px-4">
+    <section className="mx-auto mt-8 max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="mb-5 flex items-center justify-between">
         <h2 className="text-2xl font-extrabold text-slate-900">
           Customer Reviews
@@ -38,7 +38,7 @@ export default function Testimonials() {
         </span>
       </div>
 
-      <div className="space-y-4">
+      <div className="grid gap-4 md:grid-cols-3">
         {reviews.map((review) => (
           <div
             key={review.id}
@@ -53,7 +53,7 @@ export default function Testimonials() {
             </div>
 
             <p className="text-sm leading-7 text-slate-600">
-              "{review.comment}"
+              &quot;{review.comment}&quot;
             </p>
 
             <h3 className="mt-4 text-lg font-extrabold text-slate-900">

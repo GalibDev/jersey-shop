@@ -12,7 +12,7 @@ export default function SearchBar({
   setSearch,
 }: Props) {
   return (
-    <div className="px-4 pt-4">
+    <div className="px-4 pt-4 sm:px-6 lg:px-8">
       <div className="flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-sm">
         <Search className="text-slate-400" size={22} />
 

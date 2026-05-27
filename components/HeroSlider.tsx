@@ -45,7 +45,7 @@ export default function HeroSlider() {
   }
 
   return (
-    <section className="px-4 pt-4">
+    <section className="mx-auto max-w-7xl px-4 pt-4 sm:px-6 lg:px-8">
       <Swiper
         modules={[Autoplay, Pagination, EffectFade]}
         autoplay={{
@@ -58,11 +58,11 @@ export default function HeroSlider() {
         effect="fade"
         speed={1000}
         loop
-        className="rounded-[30px]"
+        className="rounded-3xl"
       >
         {sliders.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <div className="relative h-[280px] overflow-hidden rounded-[30px]">
+            <div className="relative h-[280px] overflow-hidden rounded-3xl sm:h-[360px] lg:h-[430px]">
               <Image
                 src={slide.image}
                 alt={slide.title}
@@ -71,19 +71,19 @@ export default function HeroSlider() {
                 className="object-cover"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-black/10" />
 
-              <div className="absolute bottom-6 left-6 z-10 max-w-[260px] text-white">
-                <p className="text-xs font-bold uppercase tracking-[4px] text-orange-300">
+              <div className="absolute bottom-6 left-6 z-10 max-w-[280px] text-white sm:bottom-10 sm:left-10 sm:max-w-md lg:max-w-lg">
+                <p className="text-xs font-bold uppercase tracking-[4px] text-orange-300 sm:text-sm">
                   {slide.subtitle}
                 </p>
 
-                <h1 className="mt-3 text-3xl font-extrabold leading-tight">
+                <h1 className="mt-3 text-3xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
                   {slide.title}
                 </h1>
 
                 <Link href={slide.link || "/"}>
-                  <button className="mt-5 rounded-2xl bg-orange-500 px-6 py-3 text-sm font-bold text-white shadow-lg">
+                  <button className="mt-5 rounded-2xl bg-orange-500 px-6 py-3 text-sm font-bold text-white shadow-lg transition hover:bg-orange-600 sm:px-8 sm:py-4 sm:text-base">
                     {slide.button_text || "Order Now"}
                   </button>
                 </Link>

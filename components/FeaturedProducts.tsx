@@ -28,26 +28,6 @@ export default function FeaturedProducts() {
   const [selectedProduct, setSelectedProduct] =
     useState<Product | null>(null);
 
-  useEffect(() => {
-    getProducts();
-
-    if (!sectionRef.current) return;
-
-    gsap.fromTo(
-      sectionRef.current.children,
-      {
-        opacity: 0,
-        y: 40,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.15,
-      }
-    );
-  }, []);
-
   const getProducts = async () => {
     const { data, error } = await supabase
       .from("products")
@@ -64,6 +44,32 @@ export default function FeaturedProducts() {
     setLoading(false);
   };
 
+  useEffect(() => {
+    const loadProducts = setTimeout(() => {
+      getProducts();
+    }, 0);
+
+    if (sectionRef.current) {
+      gsap.fromTo(
+        sectionRef.current.children,
+        {
+          opacity: 0,
+          y: 40,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.15,
+        }
+      );
+    }
+
+    return () => {
+      clearTimeout(loadProducts);
+    };
+  }, []);
+
   const filteredProducts = products.filter(
     (product) =>
       product.name
@@ -72,13 +78,13 @@ export default function FeaturedProducts() {
   );
 
   return (
-    <section className="mt-6 pb-32">
+    <section className="mx-auto mt-6 max-w-7xl pb-20 md:pb-28">
       <SearchBar
         search={search}
         setSearch={setSearch}
       />
 
-      <div className="mb-4 mt-6 flex items-center justify-between px-4">
+      <div className="mb-4 mt-6 flex items-center justify-between px-4 sm:px-6 lg:px-8">
         <h2 className="text-xl font-bold text-slate-900">
           Featured Products
         </h2>
@@ -90,7 +96,7 @@ export default function FeaturedProducts() {
 
       <div
         ref={sectionRef}
-        className="grid grid-cols-2 gap-4 px-4"
+        className="grid grid-cols-2 gap-4 px-4 sm:grid-cols-3 sm:px-6 lg:grid-cols-4 lg:px-8"
       >
         {loading
           ? Array.from({ length: 4 }).map(

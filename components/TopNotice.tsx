@@ -33,7 +33,7 @@ export default function TopNotice() {
   return (
     <div className="bg-slate-900 py-2 text-white">
       <div className="overflow-hidden whitespace-nowrap">
-        <div className="animate-[marquee_15s_linear_infinite] text-sm font-bold">
+        <div className="inline-block min-w-full animate-[marquee_18s_linear_infinite] px-4 text-center text-sm font-bold md:text-base">
           {notice.text}
         </div>
       </div>

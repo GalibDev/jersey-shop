@@ -25,7 +25,7 @@ export default function ProductCard({
 }: ProductCardProps) {
   return (
     <div className="overflow-hidden rounded-xl border bg-white shadow-sm">
-      <div className="relative h-44 w-full overflow-hidden bg-white p-1">
+      <div className="relative h-44 w-full overflow-hidden bg-white p-1 sm:h-52">
         <Link href={`/product/${id}`}>
           <Image
             src={image}

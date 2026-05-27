@@ -35,8 +35,8 @@ export default function CategorySlider() {
   }
 
   return (
-    <section className="mt-6">
-      <div className="mb-4 flex items-center justify-between px-4">
+    <section className="mx-auto mt-6 max-w-7xl">
+      <div className="mb-4 flex items-center justify-between px-4 sm:px-6 lg:px-8">
         <h2 className="text-xl font-extrabold text-slate-900">
           Categories
         </h2>
@@ -46,13 +46,13 @@ export default function CategorySlider() {
         </button>
       </div>
 
-      <div className="flex gap-4 overflow-x-auto px-4 pb-2">
+      <div className="flex gap-4 overflow-x-auto px-4 pb-2 sm:px-6 lg:px-8">
         {categories.map((category) => (
           <div
             key={category.id}
-            className="relative min-w-[160px] overflow-hidden rounded-3xl"
+            className="relative min-w-[160px] overflow-hidden rounded-3xl sm:min-w-[210px]"
           >
-            <div className="relative h-[180px] w-full">
+            <div className="relative h-[180px] w-full sm:h-[220px]">
               <Image
                 src={category.image}
                 alt={category.name}

@@ -21,12 +21,19 @@ export default function Home() {
     const hasSeenSplash = sessionStorage.getItem("hasSeenSplash");
 
     if (!hasSeenSplash) {
-      setLoading(true);
+      const showSplash = setTimeout(() => {
+        setLoading(true);
+      }, 0);
 
-      setTimeout(() => {
+      const hideSplash = setTimeout(() => {
         sessionStorage.setItem("hasSeenSplash", "true");
         setLoading(false);
       }, 1200);
+
+      return () => {
+        clearTimeout(showSplash);
+        clearTimeout(hideSplash);
+      };
     }
   }, []);
 
@@ -35,7 +42,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-100 pb-24">
+    <main className="min-h-screen bg-gray-100 pb-24 md:pb-0">
       <TopNotice />
       <Header />
       <HeroSlider />
