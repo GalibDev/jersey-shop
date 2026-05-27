@@ -62,18 +62,31 @@ export default function HeroSlider() {
       >
         {sliders.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <div className="relative aspect-[16/9] min-h-[220px] overflow-hidden rounded-3xl bg-slate-900 sm:min-h-[360px] lg:min-h-[430px]">
+            <div className="relative aspect-[16/9] min-h-[220px] overflow-hidden rounded-3xl bg-slate-950 sm:min-h-[360px] lg:min-h-[430px]">
               <Image
                 src={slide.image}
-                alt={slide.title}
+                alt=""
                 fill
+                aria-hidden="true"
                 priority
-                className="object-contain"
+                className="scale-110 object-cover opacity-70 blur-2xl"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-black/10" />
+              <div className="absolute inset-0 bg-black/20" />
 
-              <div className="absolute bottom-6 left-6 z-10 max-w-[280px] text-white sm:bottom-10 sm:left-10 sm:max-w-md lg:max-w-lg">
+              <div className="absolute inset-3 z-10 sm:inset-6">
+                <Image
+                  src={slide.image}
+                  alt={slide.title}
+                  fill
+                  priority
+                  className="object-contain object-center drop-shadow-2xl sm:object-right"
+                />
+              </div>
+
+              <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/80 via-black/20 to-transparent sm:bg-gradient-to-r sm:from-black/80 sm:via-black/35 sm:to-transparent" />
+
+              <div className="absolute bottom-6 left-6 z-30 max-w-[280px] text-white sm:bottom-10 sm:left-10 sm:max-w-md lg:max-w-lg">
                 <p className="text-xs font-bold uppercase tracking-[4px] text-orange-300 sm:text-sm">
                   {slide.subtitle}
                 </p>
