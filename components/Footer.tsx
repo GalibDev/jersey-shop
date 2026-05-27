@@ -12,8 +12,8 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="mt-16 bg-slate-950 text-white">
-      <div className="mx-auto max-w-7xl px-5 py-14">
+    <footer className="mt-16 bg-slate-950 pb-24 text-white md:pb-0">
+      <div className="mx-auto max-w-7xl px-5 py-12 md:py-14">
         <div className="grid gap-10 md:grid-cols-4">
           {/* LOGO + ABOUT */}
           <div>
