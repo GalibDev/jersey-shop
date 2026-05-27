@@ -199,15 +199,16 @@ export default function ProductDetailsPage() {
         <div className="mt-6">
           <p className="mb-3 text-lg font-bold">Size:</p>
 
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             {["M", "L", "XL", "XXL"].map((item) => (
               <button
                 key={item}
+                type="button"
                 onClick={() => setSize(item)}
-                className={`h-12 w-14 border text-lg font-bold ${
+                className={`h-14 min-w-16 rounded-2xl border px-5 text-lg font-extrabold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${
                   size === item
-                    ? "border-orange-500 bg-orange-500 text-white"
-                    : "bg-white text-slate-700"
+                    ? "border-orange-500 bg-orange-500 text-white shadow-orange-500/25"
+                    : "border-slate-200 bg-white text-slate-700 hover:border-orange-300 hover:text-orange-500"
                 }`}
               >
                 {item}
@@ -219,10 +220,11 @@ export default function ProductDetailsPage() {
         <div className="mt-6">
           <p className="mb-3 text-lg font-bold">Quantity:</p>
 
-          <div className="flex w-40 items-center border">
+          <div className="flex w-44 items-center overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
             <button
+              type="button"
               onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-              className="flex h-12 w-12 items-center justify-center border-r"
+              className="flex h-12 w-12 items-center justify-center border-r border-slate-200 text-slate-700 transition hover:bg-slate-100"
             >
               <Minus size={18} />
             </button>
@@ -232,8 +234,9 @@ export default function ProductDetailsPage() {
             </div>
 
             <button
+              type="button"
               onClick={() => setQuantity((q) => q + 1)}
-              className="flex h-12 w-12 items-center justify-center border-l"
+              className="flex h-12 w-12 items-center justify-center border-l border-slate-200 text-slate-700 transition hover:bg-slate-100"
             >
               <Plus size={18} />
             </button>
@@ -242,15 +245,17 @@ export default function ProductDetailsPage() {
 
         <div className="mt-8 grid grid-cols-2 gap-4">
           <button
+            type="button"
             onClick={orderNow}
-            className="h-14 rounded-xl border-2 border-orange-500 text-lg font-bold text-orange-500"
+            className="h-14 rounded-2xl border-2 border-orange-500 bg-white text-lg font-extrabold text-orange-500 shadow-sm transition hover:bg-orange-50 hover:shadow-md"
           >
             Order Now
           </button>
 
           <button
+            type="button"
             onClick={addToCart}
-            className="flex h-14 items-center justify-center gap-2 rounded-xl bg-orange-500 text-lg font-bold text-white"
+            className="flex h-14 items-center justify-center gap-2 rounded-2xl bg-orange-500 text-lg font-extrabold text-white shadow-lg shadow-orange-500/25 transition hover:bg-orange-600 hover:shadow-xl"
           >
             <ShoppingCart size={22} />
             Add to cart
