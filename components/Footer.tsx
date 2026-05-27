@@ -200,7 +200,7 @@ export default function Footer() {
               <a
                 href="https://wa.me/8801577088342"
                 target="_blank"
-                className="rounded-full bg-green-500 px-5 py-3 text-sm font-bold text-white transition hover:scale-105"
+                className="developer-contact-cta rounded-full bg-green-500 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-green-950/20 transition hover:-translate-y-1 hover:bg-green-600"
               >
                 Contact With Developer
               </a>
@@ -208,7 +208,7 @@ export default function Footer() {
               <a
                 href="https://www.facebook.com/share/1JNbdzkvwr/?mibextid=wwXIfr"
                 target="_blank"
-                className="rounded-full bg-blue-600 px-5 py-3 text-sm font-bold text-white transition hover:scale-105"
+                className="developer-facebook-cta rounded-full bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-950/20 transition hover:-translate-y-1 hover:bg-blue-500"
               >
                 Developer Facebook
               </a>
@@ -216,7 +216,7 @@ export default function Footer() {
               <a
                 href="https://mirzagalib.xyz/"
                 target="_blank"
-                className="flex items-center gap-2 rounded-full bg-orange-500 px-5 py-3 text-sm font-bold text-white transition hover:scale-105"
+                className="developer-portfolio-cta flex items-center gap-2 overflow-hidden rounded-full bg-orange-500 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-orange-950/20 transition hover:-translate-y-1 hover:bg-orange-600"
               >
                 <Globe size={17} />
                 Portfolio

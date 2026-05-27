@@ -81,6 +81,27 @@ img {
   }
 }
 
+@keyframes developerContactPulse {
+  0%,
+  100% {
+    box-shadow: 0 10px 24px rgb(20 83 45 / 0.22);
+  }
+
+  50% {
+    box-shadow: 0 12px 34px rgb(34 197 94 / 0.38);
+  }
+}
+
+@keyframes portfolioShine {
+  from {
+    transform: translateX(-140%) skewX(-20deg);
+  }
+
+  to {
+    transform: translateX(240%) skewX(-20deg);
+  }
+}
+
 .hero-image-enter {
   animation: heroImageEnter 700ms ease-out both;
 }
@@ -93,10 +114,43 @@ img {
   animation: productCardEnter 500ms ease-out both;
 }
 
+.developer-contact-cta {
+  animation: developerContactPulse 2.8s ease-in-out infinite;
+}
+
+.developer-facebook-cta:hover {
+  box-shadow: 0 12px 34px rgb(37 99 235 / 0.38);
+}
+
+.developer-portfolio-cta {
+  position: relative;
+}
+
+.developer-portfolio-cta::after {
+  position: absolute;
+  inset: 0;
+  width: 42%;
+  content: "";
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(255 255 255 / 0.45),
+    transparent
+  );
+  animation: portfolioShine 2.8s ease-in-out infinite;
+}
+
+.developer-portfolio-cta > * {
+  position: relative;
+  z-index: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-image-enter,
   .hero-copy-enter,
-  .product-card-enter {
+  .product-card-enter,
+  .developer-contact-cta,
+  .developer-portfolio-cta::after {
     animation: none;
   }
 }
