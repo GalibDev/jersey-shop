@@ -44,3 +44,59 @@ img {
     transform: translateX(-100%);
   }
 }
+
+@keyframes heroImageEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes heroCopyEnter {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes productCardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-image-enter {
+  animation: heroImageEnter 700ms ease-out both;
+}
+
+.hero-copy-enter {
+  animation: heroCopyEnter 650ms ease-out both;
+}
+
+.product-card-enter {
+  animation: productCardEnter 500ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-image-enter,
+  .hero-copy-enter,
+  .product-card-enter {
+    animation: none;
+  }
+}

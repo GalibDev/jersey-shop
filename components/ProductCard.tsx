@@ -58,7 +58,7 @@ export default function ProductCard({
   };
 
   return (
-    <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <div className="product-card-enter group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
       <div className="relative h-44 w-full overflow-hidden bg-slate-50 p-3 sm:h-52">
         <Link href={`/product/${id}`}>
           <Image
@@ -137,7 +137,7 @@ export default function ProductCard({
             type="button"
             onClick={handleAddToCart}
             aria-label="Add to cart"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-900 text-white transition hover:bg-slate-700"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-900 text-white transition hover:scale-105 hover:bg-slate-700"
           >
             <ShoppingCart size={18} />
           </button>

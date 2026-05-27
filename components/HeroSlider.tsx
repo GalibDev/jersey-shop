@@ -74,7 +74,7 @@ export default function HeroSlider() {
 
               <div className="hidden sm:absolute sm:inset-0 sm:block sm:bg-black/20" />
 
-              <div className="relative h-[225px] bg-slate-900 sm:absolute sm:inset-6 sm:z-10 sm:h-auto sm:bg-transparent">
+              <div className="hero-image-enter relative h-[225px] bg-slate-900 sm:absolute sm:inset-6 sm:z-10 sm:h-auto sm:bg-transparent">
                 <Image
                   src={slide.image}
                   alt={slide.title}
@@ -86,7 +86,7 @@ export default function HeroSlider() {
 
               <div className="hidden sm:absolute sm:inset-0 sm:z-20 sm:block sm:bg-gradient-to-r sm:from-black/80 sm:via-black/35 sm:to-transparent" />
 
-              <div className="relative z-30 bg-slate-950 px-5 pb-6 pt-4 text-white sm:absolute sm:bottom-10 sm:left-10 sm:right-auto sm:max-w-md sm:bg-transparent sm:p-0 lg:max-w-lg">
+              <div className="hero-copy-enter relative z-30 bg-slate-950 px-5 pb-6 pt-4 text-white sm:absolute sm:bottom-10 sm:left-10 sm:right-auto sm:max-w-md sm:bg-transparent sm:p-0 lg:max-w-lg">
                 <p className="line-clamp-2 text-[10px] font-bold uppercase tracking-[3px] text-orange-300 sm:text-sm sm:tracking-[4px]">
                   {slide.subtitle}
                 </p>

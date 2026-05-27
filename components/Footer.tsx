@@ -214,7 +214,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://your-portfolio-link.com"
+                href="https://mirzagalib.xyz/"
                 target="_blank"
                 className="flex items-center gap-2 rounded-full bg-orange-500 px-5 py-3 text-sm font-bold text-white transition hover:scale-105"
               >
