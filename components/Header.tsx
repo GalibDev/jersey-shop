@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { Search, User } from "lucide-react";
+import { Search, ShoppingCart, User } from "lucide-react";
 
 import { supabase } from "@/lib/supabase";
 
@@ -94,6 +94,13 @@ export default function Header() {
         <div className="flex items-center gap-3 text-slate-900 sm:gap-4">
           <Link href="/search" className="rounded-full p-2 transition hover:bg-slate-100">
             <Search className="h-7 w-7 sm:h-8 sm:w-8" />
+          </Link>
+
+          <Link
+            href="/cart"
+            className="hidden rounded-full p-2 transition hover:bg-slate-100 md:block"
+          >
+            <ShoppingCart className="h-7 w-7 sm:h-8 sm:w-8" />
           </Link>
 
           <Link
