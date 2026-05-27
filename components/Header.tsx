@@ -4,13 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { Search, ShoppingCart, User } from "lucide-react";
+import { Search, User } from "lucide-react";
 
 import { supabase } from "@/lib/supabase";
 
 export default function Header() {
   const [profileLink, setProfileLink] =
     useState("/customer/login");
+  const [avatarUrl, setAvatarUrl] =
+    useState<string | null>(null);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -18,6 +20,9 @@ export default function Header() {
 
       if (data.user) {
         setProfileLink("/customer/profile");
+        setAvatarUrl(
+          (data.user.user_metadata?.avatar_url as string) || null
+        );
       }
     };
 
@@ -91,15 +96,21 @@ export default function Header() {
             <Search className="h-7 w-7 sm:h-8 sm:w-8" />
           </Link>
 
-          <Link href="/cart" className="rounded-full p-2 transition hover:bg-slate-100">
-            <ShoppingCart className="h-7 w-7 sm:h-8 sm:w-8" />
-          </Link>
-
           <Link
             href={profileLink}
-            className="hidden rounded-full p-2 transition hover:bg-slate-100 sm:block lg:hidden"
+            className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-slate-900 transition hover:bg-orange-50 hover:text-orange-500 sm:h-12 sm:w-12"
           >
-            <User className="h-7 w-7 sm:h-8 sm:w-8" />
+            {avatarUrl ? (
+              <Image
+                src={avatarUrl}
+                alt="Profile"
+                width={48}
+                height={48}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <User className="h-7 w-7 sm:h-8 sm:w-8" />
+            )}
           </Link>
         </div>
       </div>
