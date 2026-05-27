@@ -58,11 +58,11 @@ export default function HeroSlider() {
         effect="fade"
         speed={1000}
         loop
-        className="rounded-3xl"
+        className="rounded-[28px]"
       >
         {sliders.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <div className="relative aspect-[16/9] min-h-[220px] overflow-hidden rounded-3xl bg-slate-950 sm:min-h-[360px] lg:min-h-[430px]">
+            <div className="relative h-[390px] overflow-hidden rounded-[28px] bg-slate-950 sm:aspect-[16/9] sm:h-auto sm:min-h-[360px] lg:min-h-[430px]">
               <Image
                 src={slide.image}
                 alt=""
@@ -74,7 +74,7 @@ export default function HeroSlider() {
 
               <div className="absolute inset-0 bg-black/20" />
 
-              <div className="absolute inset-3 z-10 sm:inset-6">
+              <div className="absolute inset-x-4 top-4 bottom-[152px] z-10 sm:inset-6">
                 <Image
                   src={slide.image}
                   alt={slide.title}
@@ -84,19 +84,19 @@ export default function HeroSlider() {
                 />
               </div>
 
-              <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/80 via-black/20 to-transparent sm:bg-gradient-to-r sm:from-black/80 sm:via-black/35 sm:to-transparent" />
+              <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/95 via-black/55 to-black/10 sm:bg-gradient-to-r sm:from-black/80 sm:via-black/35 sm:to-transparent" />
 
-              <div className="absolute bottom-6 left-6 z-30 max-w-[280px] text-white sm:bottom-10 sm:left-10 sm:max-w-md lg:max-w-lg">
-                <p className="text-xs font-bold uppercase tracking-[4px] text-orange-300 sm:text-sm">
+              <div className="absolute bottom-6 left-5 right-5 z-30 text-white sm:bottom-10 sm:left-10 sm:right-auto sm:max-w-md lg:max-w-lg">
+                <p className="line-clamp-2 text-[10px] font-bold uppercase tracking-[3px] text-orange-300 sm:text-sm sm:tracking-[4px]">
                   {slide.subtitle}
                 </p>
 
-                <h1 className="mt-3 text-3xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
+                <h1 className="mt-2 line-clamp-2 text-[28px] font-extrabold leading-[1.08] sm:mt-3 sm:text-5xl sm:leading-tight lg:text-6xl">
                   {slide.title}
                 </h1>
 
                 <Link href={slide.link || "/"}>
-                  <button className="mt-5 rounded-2xl bg-orange-500 px-6 py-3 text-sm font-bold text-white shadow-lg transition hover:bg-orange-600 sm:px-8 sm:py-4 sm:text-base">
+                  <button className="mt-4 rounded-2xl bg-orange-500 px-6 py-3 text-sm font-bold text-white shadow-lg transition hover:bg-orange-600 sm:mt-5 sm:px-8 sm:py-4 sm:text-base">
                     {slide.button_text || "Order Now"}
                   </button>
                 </Link>
