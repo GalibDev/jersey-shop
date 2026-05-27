@@ -131,24 +131,27 @@ export default function ProductDetailsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-100 pb-32">
-      <div className="bg-white p-4">
-        <div className="relative h-[360px] w-full overflow-hidden rounded-2xl bg-white">
+    <main className="min-h-screen bg-gray-100 px-4 py-4 pb-36 md:pb-12">
+      <div className="mx-auto max-w-6xl">
+      <div className="relative rounded-3xl bg-white p-3 shadow-sm sm:p-4">
+        <div className="relative h-[300px] w-full overflow-hidden rounded-2xl bg-slate-50 sm:h-[420px]">
           <Image
             src={mainImage}
             alt={product.name}
             fill
-            className="object-contain"
+            className="object-contain p-3"
           />
         </div>
 
-        <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
+        <div className="mt-3 flex gap-3 overflow-x-auto pb-2">
           {galleryImages.map((img, index) => (
             <button
               key={index}
               onClick={() => setMainImage(img)}
-              className={`relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border bg-white ${
-                mainImage === img ? "border-4 border-orange-500" : ""
+              className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl border bg-white shadow-sm sm:h-20 sm:w-20 ${
+                mainImage === img
+                  ? "border-2 border-orange-500 ring-2 ring-orange-100"
+                  : "border-slate-200"
               }`}
             >
               <Image
@@ -173,8 +176,8 @@ export default function ProductDetailsPage() {
         </button>
       </div>
 
-      <section className="bg-white p-5">
-        <h1 className="text-3xl font-extrabold text-slate-900">
+      <section className="mt-4 rounded-3xl bg-white p-5 shadow-sm">
+        <h1 className="text-2xl font-extrabold leading-tight text-slate-900 sm:text-3xl">
           {product.name}
         </h1>
 
@@ -182,17 +185,19 @@ export default function ProductDetailsPage() {
           Category: {product.category}
         </p>
 
-        <div className="mt-4 flex items-center gap-3">
-          <span className="text-4xl font-extrabold text-orange-500">
+        <div className="mt-4 flex flex-wrap items-center gap-3">
+          <span className="text-3xl font-extrabold text-orange-500 sm:text-4xl">
             ৳{product.price}
           </span>
 
-          <span className="text-xl text-slate-400 line-through">
-            ৳{product.old_price}
-          </span>
+          {product.old_price > product.price && (
+            <span className="text-lg text-slate-400 line-through sm:text-xl">
+              ৳{product.old_price}
+            </span>
+          )}
         </div>
 
-        <p className="mt-3 text-2xl font-extrabold text-slate-900">
+        <p className="mt-3 text-xl font-extrabold text-slate-900 sm:text-2xl">
           Total: ৳{product.price * quantity}
         </p>
 
@@ -243,7 +248,7 @@ export default function ProductDetailsPage() {
           </div>
         </div>
 
-        <div className="mt-8 grid grid-cols-2 gap-4">
+        <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
           <button
             type="button"
             onClick={orderNow}
@@ -262,7 +267,7 @@ export default function ProductDetailsPage() {
           </button>
         </div>
 
-        <div className="mt-8 rounded-2xl bg-gray-100 p-5">
+        <div className="mt-8 rounded-2xl bg-gray-100 p-4 sm:p-5">
           <h2 className="mb-4 text-2xl font-extrabold">
             Product Description
           </h2>
@@ -272,7 +277,7 @@ export default function ProductDetailsPage() {
           </p>
         </div>
 
-        <div className="mt-5 rounded-2xl bg-gray-100 p-5">
+        <div className="mt-5 rounded-2xl bg-gray-100 p-4 sm:p-5">
           <h2 className="mb-4 text-2xl font-extrabold">
             Product Details
           </h2>
@@ -282,6 +287,7 @@ export default function ProductDetailsPage() {
           </div>
         </div>
       </section>
+      </div>
 
       <BottomNav />
     </main>

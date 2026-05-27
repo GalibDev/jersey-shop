@@ -11,18 +11,18 @@ export default function FloatingActions() {
   };
 
   return (
-    <div className="fixed bottom-24 right-4 z-50 flex flex-col gap-3 md:bottom-6 md:right-6">
+    <div className="fixed bottom-36 right-3 z-40 flex flex-col gap-3 md:bottom-6 md:right-6 md:z-50">
       <a
         href="https://wa.me/8801XXXXXXXXX"
         target="_blank"
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-xl"
+        className="flex h-12 w-12 items-center justify-center rounded-full bg-green-500 text-white shadow-xl md:h-14 md:w-14"
       >
-        <MessageCircle size={28} />
+        <MessageCircle className="h-6 w-6 md:h-7 md:w-7" />
       </a>
 
       <button
         onClick={scrollTop}
-        className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-900 text-white shadow-lg"
+        className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-900 text-white shadow-lg md:h-12 md:w-12"
       >
         <ArrowUp size={22} />
       </button>

@@ -61,10 +61,10 @@ export default function CategorySlider() {
               />
             </div>
 
-            <div className="absolute inset-0 bg-black/35" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
 
-            <div className="absolute bottom-4 left-4 z-10">
-              <h3 className="text-xl font-extrabold text-white">
+            <div className="absolute bottom-4 left-4 right-4 z-10">
+              <h3 className="line-clamp-2 text-xl font-extrabold leading-tight text-white drop-shadow-lg">
                 {category.name}
               </h3>
             </div>

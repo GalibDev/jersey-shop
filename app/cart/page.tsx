@@ -13,7 +13,7 @@ export default function CartPage() {
   const total = cart.reduce((acc, item) => acc + item.price, 0);
 
   return (
-    <main className="min-h-screen bg-gray-100 p-4 pb-44">
+    <main className={`min-h-screen bg-gray-100 p-4 ${cart.length > 0 ? "pb-72 md:pb-40" : "pb-32"}`}>
       <Link
         href="/"
         className="mb-5 flex h-11 w-11 items-center justify-center rounded-full bg-white shadow"
@@ -42,12 +42,12 @@ export default function CartPage() {
             key={`${item.id}-${index}`}
             className="flex items-center gap-4 rounded-3xl bg-white p-3 shadow-sm"
           >
-            <div className="relative h-24 w-24 overflow-hidden rounded-2xl bg-gray-100">
+            <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-2xl bg-gray-100">
               <Image
                 src={item.image}
                 alt={item.name}
                 fill
-                className="object-cover"
+                className="object-contain p-2"
               />
             </div>
 
@@ -72,7 +72,7 @@ export default function CartPage() {
       </div>
 
       {cart.length > 0 && (
-        <div className="fixed bottom-24 left-4 right-4 z-40 rounded-3xl bg-white p-4 shadow-xl">
+        <div className="fixed bottom-24 left-4 right-4 z-40 mx-auto max-w-md rounded-3xl bg-white p-4 shadow-xl md:bottom-6">
           <div className="mb-4 flex items-center justify-between">
             <span className="text-lg font-bold text-slate-700">
               Total
