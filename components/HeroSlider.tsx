@@ -62,31 +62,31 @@ export default function HeroSlider() {
       >
         {sliders.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <div className="relative h-[390px] overflow-hidden rounded-[28px] bg-slate-950 sm:aspect-[16/9] sm:h-auto sm:min-h-[360px] lg:min-h-[430px]">
+            <div className="overflow-hidden rounded-[28px] bg-slate-950 sm:relative sm:aspect-[16/9] sm:min-h-[360px] lg:min-h-[430px]">
               <Image
                 src={slide.image}
                 alt=""
                 fill
                 aria-hidden="true"
                 priority
-                className="scale-110 object-cover opacity-70 blur-2xl"
+                className="hidden scale-110 object-cover opacity-70 blur-2xl sm:block"
               />
 
-              <div className="absolute inset-0 bg-black/20" />
+              <div className="hidden sm:absolute sm:inset-0 sm:block sm:bg-black/20" />
 
-              <div className="absolute inset-x-4 top-4 bottom-[152px] z-10 sm:inset-6">
+              <div className="relative h-[225px] bg-slate-900 sm:absolute sm:inset-6 sm:z-10 sm:h-auto sm:bg-transparent">
                 <Image
                   src={slide.image}
                   alt={slide.title}
                   fill
                   priority
-                  className="object-contain object-center drop-shadow-2xl sm:object-right"
+                  className="object-contain object-center p-3 drop-shadow-2xl sm:p-0 sm:object-right"
                 />
               </div>
 
-              <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/95 via-black/55 to-black/10 sm:bg-gradient-to-r sm:from-black/80 sm:via-black/35 sm:to-transparent" />
+              <div className="hidden sm:absolute sm:inset-0 sm:z-20 sm:block sm:bg-gradient-to-r sm:from-black/80 sm:via-black/35 sm:to-transparent" />
 
-              <div className="absolute bottom-6 left-5 right-5 z-30 text-white sm:bottom-10 sm:left-10 sm:right-auto sm:max-w-md lg:max-w-lg">
+              <div className="relative z-30 bg-slate-950 px-5 pb-6 pt-4 text-white sm:absolute sm:bottom-10 sm:left-10 sm:right-auto sm:max-w-md sm:bg-transparent sm:p-0 lg:max-w-lg">
                 <p className="line-clamp-2 text-[10px] font-bold uppercase tracking-[3px] text-orange-300 sm:text-sm sm:tracking-[4px]">
                   {slide.subtitle}
                 </p>
