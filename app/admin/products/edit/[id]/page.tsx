@@ -17,6 +17,7 @@ export default function EditProductPage() {
 
   const [loading, setLoading] = useState(false);
 
+  const [serial, setSerial] = useState("");
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
   const [images, setImages] = useState<string[]>([]);
@@ -51,6 +52,7 @@ export default function EditProductPage() {
         return;
       }
 
+      setSerial(data.serial == null ? "" : String(data.serial));
       setName(data.name || "");
       setImage(data.image || "");
       setImages(data.images || []);
@@ -115,6 +117,7 @@ export default function EditProductPage() {
       const { error } = await supabase
         .from("products")
         .update({
+          serial: serial.trim() ? Number(serial) : null,
           name,
           image: finalMainImage,
           images: finalImages,
@@ -137,8 +140,8 @@ export default function EditProductPage() {
 
       toast.success("Product updated");
       router.push("/admin/products");
-    } catch (error: any) {
-      toast.error(error.message || "Update failed");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Update failed");
     }
 
     setLoading(false);
@@ -165,6 +168,15 @@ export default function EditProductPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
+          />
+
+          <input
+            className="h-14 w-full rounded-2xl border px-4 outline-none"
+            min="1"
+            placeholder="Serial e.g. 1"
+            type="number"
+            value={serial}
+            onChange={(e) => setSerial(e.target.value)}
           />
 
           <div className="rounded-2xl border bg-white p-4">

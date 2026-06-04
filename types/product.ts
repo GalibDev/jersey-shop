@@ -1,5 +1,6 @@
 export type Product = {
   id: number;
+  serial?: number | null;
   name: string;
   image: string;
   price: number;

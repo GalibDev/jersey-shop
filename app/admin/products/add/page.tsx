@@ -14,6 +14,7 @@ export default function AddProductPage() {
 
   const [loading, setLoading] = useState(false);
 
+  const [serial, setSerial] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [oldPrice, setOldPrice] = useState("");
@@ -63,6 +64,7 @@ export default function AddProductPage() {
 
       const { error } = await supabase.from("products").insert([
         {
+          serial: serial.trim() ? Number(serial) : null,
           name,
           image: mainImageUrl,
           images: allImages,
@@ -114,6 +116,15 @@ export default function AddProductPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
+          />
+
+          <input
+            className="h-14 w-full rounded-2xl border px-4 outline-none"
+            min="1"
+            placeholder="Serial e.g. 1"
+            type="number"
+            value={serial}
+            onChange={(e) => setSerial(e.target.value)}
           />
 
           <div className="rounded-2xl border bg-white p-4">

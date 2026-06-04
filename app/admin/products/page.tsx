@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Pencil, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
@@ -10,6 +10,7 @@ import AdminGuard from "@/components/AdminGuard";
 
 interface Product {
   id: number;
+  serial?: number | null;
   name: string;
   image: string;
   price: number;
@@ -21,16 +22,13 @@ export default function AdminProductsPage() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     setLoading(true);
 
     const { data, error } = await supabase
       .from("products")
       .select("*")
+      .order("serial", { ascending: true, nullsFirst: false })
       .order("id", { ascending: false });
 
     if (error) {
@@ -41,7 +39,17 @@ export default function AdminProductsPage() {
 
     setProducts(data || []);
     setLoading(false);
-  };
+  }, []);
+
+  useEffect(() => {
+    const loadProducts = setTimeout(() => {
+      fetchProducts();
+    }, 0);
+
+    return () => {
+      clearTimeout(loadProducts);
+    };
+  }, [fetchProducts]);
 
   const handleDelete = async (id: number) => {
     try {
@@ -60,8 +68,8 @@ export default function AdminProductsPage() {
       );
 
       toast.success("Product deleted");
-    } catch (error: any) {
-      toast.error(error.message || "Delete failed");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Delete failed");
     }
   };
 
@@ -135,6 +143,10 @@ export default function AdminProductsPage() {
 
                   <p className="mt-2 text-lg text-slate-600">
                     ৳{product.price} • Stock: {product.stock}
+                  </p>
+
+                  <p className="mt-1 text-sm font-bold text-orange-500">
+                    Serial: {product.serial ?? "Not set"}
                   </p>
                 </div>
               </div>

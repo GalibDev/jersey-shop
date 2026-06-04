@@ -33,6 +33,7 @@ export default function FeaturedProducts() {
     const { data, error } = await supabase
       .from("products")
       .select("*")
+      .order("serial", { ascending: true, nullsFirst: false })
       .order("id", { ascending: false });
 
     if (error) {
