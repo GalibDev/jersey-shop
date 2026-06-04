@@ -7,6 +7,7 @@ import { ArrowLeft } from "lucide-react";
 import toast from "react-hot-toast";
 
 import { supabase } from "@/lib/supabase";
+import { reorderProductSerial } from "@/lib/productSerial";
 import AdminGuard from "@/components/AdminGuard";
 
 export default function EditProductPage() {
@@ -148,6 +149,19 @@ export default function EditProductPage() {
         toast.error(error.message);
         setLoading(false);
         return;
+      }
+
+      if (productData.serial) {
+        const serialError = await reorderProductSerial(
+          productId,
+          productData.serial
+        );
+
+        if (serialError) {
+          toast.error(serialError.message);
+          setLoading(false);
+          return;
+        }
       }
 
       toast.success("Product updated");

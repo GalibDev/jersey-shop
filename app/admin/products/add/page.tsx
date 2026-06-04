@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 import { supabase } from "@/lib/supabase";
+import { reorderProductSerial } from "@/lib/productSerial";
 import AdminGuard from "@/components/AdminGuard";
 
 export default function AddProductPage() {
@@ -77,21 +78,44 @@ export default function AddProductPage() {
         details,
       };
 
-      let { error } = await supabase.from("products").insert([productData]);
+      const addResult = await supabase
+        .from("products")
+        .insert([productData])
+        .select("id")
+        .single();
+
+      let error = addResult.error;
+      let addedProductId = addResult.data?.id as number | undefined;
 
       if (error && error.code === "PGRST204") {
         const { serial: _serial, ...productDataWithoutSerial } = productData;
         const retry = await supabase
           .from("products")
-          .insert([productDataWithoutSerial]);
+          .insert([productDataWithoutSerial])
+          .select("id")
+          .single();
 
         error = retry.error;
+        addedProductId = retry.data?.id as number | undefined;
       }
 
       if (error) {
         toast.error(error.message);
         setLoading(false);
         return;
+      }
+
+      if (addedProductId && productData.serial) {
+        const serialError = await reorderProductSerial(
+          addedProductId,
+          productData.serial
+        );
+
+        if (serialError) {
+          toast.error(serialError.message);
+          setLoading(false);
+          return;
+        }
       }
 
       toast.success("Product added");
