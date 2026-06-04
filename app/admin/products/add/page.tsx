@@ -62,22 +62,31 @@ export default function AddProductPage() {
 
       const allImages = [mainImageUrl, ...extraImageUrls];
 
-      const { error } = await supabase.from("products").insert([
-        {
-          serial: serial.trim() ? Number(serial) : null,
-          name,
-          image: mainImageUrl,
-          images: allImages,
-          price: Number(price),
-          old_price: Number(oldPrice),
-          discount,
-          badge,
-          category,
-          stock: Number(stock),
-          description,
-          details,
-        },
-      ]);
+      const productData = {
+        serial: serial.trim() ? Number(serial) : null,
+        name,
+        image: mainImageUrl,
+        images: allImages,
+        price: Number(price),
+        old_price: Number(oldPrice),
+        discount,
+        badge,
+        category,
+        stock: Number(stock),
+        description,
+        details,
+      };
+
+      let { error } = await supabase.from("products").insert([productData]);
+
+      if (error && error.code === "PGRST204") {
+        const { serial: _serial, ...productDataWithoutSerial } = productData;
+        const retry = await supabase
+          .from("products")
+          .insert([productDataWithoutSerial]);
+
+        error = retry.error;
+      }
 
       if (error) {
         toast.error(error.message);

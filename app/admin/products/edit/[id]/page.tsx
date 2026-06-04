@@ -114,23 +114,35 @@ export default function EditProductPage() {
         finalImages = [finalMainImage, ...finalImages];
       }
 
-      const { error } = await supabase
+      const productData = {
+        serial: serial.trim() ? Number(serial) : null,
+        name,
+        image: finalMainImage,
+        images: finalImages,
+        price: Number(price),
+        old_price: Number(oldPrice),
+        discount,
+        badge,
+        category,
+        stock: Number(stock),
+        description,
+        details,
+      };
+
+      let { error } = await supabase
         .from("products")
-        .update({
-          serial: serial.trim() ? Number(serial) : null,
-          name,
-          image: finalMainImage,
-          images: finalImages,
-          price: Number(price),
-          old_price: Number(oldPrice),
-          discount,
-          badge,
-          category,
-          stock: Number(stock),
-          description,
-          details,
-        })
+        .update(productData)
         .eq("id", productId);
+
+      if (error && error.code === "PGRST204") {
+        const { serial: _serial, ...productDataWithoutSerial } = productData;
+        const retry = await supabase
+          .from("products")
+          .update(productDataWithoutSerial)
+          .eq("id", productId);
+
+        error = retry.error;
+      }
 
       if (error) {
         toast.error(error.message);
