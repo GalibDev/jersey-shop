@@ -30,14 +30,22 @@ export default function FeaturedProducts() {
     useState<Product | null>(null);
 
   const getProducts = async () => {
-    const { data, error } = await supabase
+    const serialOrderedProducts = await supabase
       .from("products")
       .select("*")
       .order("serial", { ascending: true, nullsFirst: false })
       .order("id", { ascending: false });
 
+    const { data, error } = serialOrderedProducts.error
+      ? await supabase
+          .from("products")
+          .select("*")
+          .order("id", { ascending: false })
+      : serialOrderedProducts;
+
     if (error) {
       console.log(error);
+      setLoading(false);
       return;
     }
 
