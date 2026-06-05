@@ -59,10 +59,10 @@ export default function Header() {
           <Image
             src="/logo.png"
             alt="NOVALO"
-            width={58}
-            height={58}
+            width={150}
+            height={70}
             priority
-            className="h-11 w-11 object-contain sm:h-14 sm:w-14"
+            className="h-14 w-36 object-contain sm:h-[72px] sm:w-48"
           />
         </Link>
 
