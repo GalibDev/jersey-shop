@@ -19,6 +19,8 @@ import { supabase } from "@/lib/supabase";
 import Header from "@/components/Header";
 import BottomNav from "@/components/BottomNav";
 
+type PaymentMethod = "bKash" | "Nagad";
+
 export default function CheckoutPage() {
   const router = useRouter();
 
@@ -31,6 +33,7 @@ export default function CheckoutPage() {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [area, setArea] = useState("Dhaka City");
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("bKash");
   const [trxId, setTrxId] = useState("");
   const [paymentNote, setPaymentNote] = useState("");
   const [loading, setLoading] = useState(false);
@@ -39,6 +42,9 @@ export default function CheckoutPage() {
   const total = subtotal + deliveryCharge;
   const whatsappNumber = "8801876882474";
   const bkashNumber = "01876882474";
+  const nagadNumber = "01876882474";
+  const paymentNumber =
+    paymentMethod === "bKash" ? bkashNumber : nagadNumber;
 
   const handleOrder = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,7 +81,7 @@ export default function CheckoutPage() {
 
       area,
       delivery_charge: deliveryCharge,
-      payment_method: "bKash",
+      payment_method: paymentMethod,
       trx_id: trxId.trim(),
       payment_note: paymentNote.trim(),
       payment_status: trxId ? "Submitted" : "Pending",
@@ -113,7 +119,7 @@ export default function CheckoutPage() {
       .map((item, index) => `${index + 1}. ${item.name} - ৳${item.price}`)
       .join("%0A");
 
-    const message = `Payment Screenshot Submit%0A%0AName: ${name}%0APhone: ${phone}%0AAddress: ${address}%0AArea: ${area}%0A%0AProducts:%0A${productList}%0A%0ATotal: ৳${total}%0A%0AbKash Number: ${bkashNumber}%0A%0APlease check my payment screenshot.`;
+    const message = `Payment Screenshot Submit%0A%0AName: ${name}%0APhone: ${phone}%0AAddress: ${address}%0AArea: ${area}%0APayment Method: ${paymentMethod}%0A%0AProducts:%0A${productList}%0A%0ATotal: ৳${total}%0A%0A${paymentMethod} Number: ${paymentNumber}%0ATransaction ID: ${trxId}%0A%0APlease check my payment screenshot.`;
 
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
   };
@@ -136,7 +142,7 @@ export default function CheckoutPage() {
           </h1>
 
           <p className="mt-2 text-sm font-semibold text-slate-500">
-            Complete your delivery details and bKash payment information.
+            Complete your delivery details and payment information.
           </p>
         </div>
 
@@ -232,31 +238,53 @@ export default function CheckoutPage() {
                 </h2>
               </div>
 
+              <div className="mb-4 grid grid-cols-2 gap-3">
+                {(["bKash", "Nagad"] as PaymentMethod[]).map((method) => (
+                  <button
+                    type="button"
+                    key={method}
+                    onClick={() => {
+                      setPaymentMethod(method);
+                      setTrxId("");
+                      setPaymentNote("");
+                    }}
+                    className={`h-14 rounded-2xl border font-extrabold shadow-sm transition hover:-translate-y-0.5 ${
+                      paymentMethod === method
+                        ? "border-orange-500 bg-orange-500 text-white shadow-orange-500/25"
+                        : "border-slate-200 bg-white text-slate-700 hover:border-orange-300 hover:text-orange-500"
+                    }`}
+                  >
+                    {method}
+                  </button>
+                ))}
+              </div>
+
               <div className="rounded-2xl border border-orange-100 bg-orange-50 p-4">
                 <p className="font-bold text-slate-900">
-                  Send Money bKash Number
+                  Send Money {paymentMethod} Number
                 </p>
 
                 <p className="mt-2 text-2xl font-extrabold text-orange-500">
-                  {bkashNumber}
+                  {paymentNumber}
                 </p>
 
                 <p className="mt-2 text-sm leading-6 text-slate-600">
-                  Send total ৳{total} by bKash, then enter the transaction ID
-                  below. You can also send the payment screenshot on WhatsApp.
+                  Send total ৳{total} by {paymentMethod}, then enter the
+                  transaction ID below. You can also send the payment screenshot
+                  on WhatsApp.
                 </p>
               </div>
 
               <input
                 type="text"
-                placeholder="bKash Transaction ID"
+                placeholder={`${paymentMethod} Transaction ID`}
                 value={trxId}
                 onChange={(e) => setTrxId(e.target.value)}
                 className="mt-4 h-14 w-full rounded-2xl border border-slate-200 bg-white px-4 font-semibold outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
               />
 
               <textarea
-                placeholder="Payment note optional"
+                placeholder={`${paymentMethod} payment note optional`}
                 value={paymentNote}
                 onChange={(e) => setPaymentNote(e.target.value)}
                 className="mt-3 min-h-[90px] w-full rounded-2xl border border-slate-200 bg-white p-4 font-semibold outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
