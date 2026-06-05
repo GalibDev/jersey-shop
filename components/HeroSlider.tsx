@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Search } from "lucide-react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, EffectFade } from "swiper/modules";
+import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -45,11 +46,11 @@ export default function HeroSlider() {
   }
 
   return (
-    <section className="mx-auto max-w-7xl px-4 pt-4 sm:px-6 lg:px-8">
+    <section className="relative w-full overflow-hidden bg-slate-950">
       <Swiper
         modules={[Autoplay, Pagination, EffectFade]}
         autoplay={{
-          delay: 3000,
+          delay: 3800,
           disableOnInteraction: false,
         }}
         pagination={{
@@ -58,53 +59,61 @@ export default function HeroSlider() {
         effect="fade"
         speed={1000}
         loop
-        className="rounded-[28px]"
+        className="hero-splayd-slider"
       >
         {sliders.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <div className="overflow-hidden rounded-[28px] bg-slate-950 sm:relative sm:aspect-[16/9] sm:min-h-[360px] lg:min-h-[430px]">
+            <div className="relative h-[520px] overflow-hidden bg-slate-950 sm:h-[calc(100svh-150px)] sm:min-h-[560px] sm:max-h-[860px]">
               <Image
                 src={slide.image}
-                alt=""
+                alt={slide.title || "NOVALO slider"}
                 fill
-                aria-hidden="true"
                 priority
-                className="hidden scale-110 object-cover opacity-70 blur-2xl sm:block"
+                sizes="100vw"
+                className="object-cover object-center"
               />
 
-              <div className="hidden sm:absolute sm:inset-0 sm:block sm:bg-black/20" />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/5 to-black/20" />
 
-              <div className="hero-image-enter relative h-[225px] bg-slate-900 sm:absolute sm:inset-6 sm:z-10 sm:h-auto sm:bg-transparent">
-                <Image
-                  src={slide.image}
-                  alt={slide.title}
-                  fill
-                  priority
-                  className="object-contain object-center p-3 drop-shadow-2xl sm:p-0 sm:object-right"
-                />
-              </div>
+              <Link
+                href={slide.link || "/"}
+                aria-label={slide.title || "Open slider"}
+                className="absolute inset-0 z-[5]"
+              />
 
-              <div className="hidden sm:absolute sm:inset-0 sm:z-20 sm:block sm:bg-gradient-to-r sm:from-black/80 sm:via-black/35 sm:to-transparent" />
-
-              <div className="hero-copy-enter relative z-30 bg-slate-950 px-5 pb-6 pt-4 text-white sm:absolute sm:bottom-10 sm:left-10 sm:right-auto sm:max-w-md sm:bg-transparent sm:p-0 lg:max-w-lg">
-                <p className="line-clamp-2 text-[10px] font-bold uppercase tracking-[3px] text-orange-300 sm:text-sm sm:tracking-[4px]">
-                  {slide.subtitle}
-                </p>
-
-                <h1 className="mt-2 line-clamp-2 text-[28px] font-extrabold leading-[1.08] sm:mt-3 sm:text-5xl sm:leading-tight lg:text-6xl">
-                  {slide.title}
-                </h1>
-
-                <Link href={slide.link || "/"}>
-                  <button className="mt-4 rounded-2xl bg-orange-500 px-6 py-3 text-sm font-bold text-white shadow-lg transition hover:bg-orange-600 sm:mt-5 sm:px-8 sm:py-4 sm:text-base">
-                    {slide.button_text || "Order Now"}
-                  </button>
+              <div className="pointer-events-none absolute inset-x-4 top-7 z-20 sm:inset-x-12 sm:top-12 lg:inset-x-16">
+                <Link
+                  href="/search"
+                  className="pointer-events-auto flex h-14 max-w-full items-center gap-4 border border-white/80 bg-black/25 px-4 text-white shadow-2xl backdrop-blur-sm transition hover:bg-black/35 sm:h-16"
+                >
+                  <Search className="h-7 w-7 shrink-0 sm:h-8 sm:w-8" />
+                  <span className="text-base font-medium sm:text-lg">
+                    Search &quot;Argentina Jersey&quot;
+                  </span>
                 </Link>
               </div>
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
+
+      <style jsx global>{`
+        .hero-splayd-slider .swiper-pagination {
+          bottom: 18px !important;
+        }
+
+        .hero-splayd-slider .swiper-pagination-bullet {
+          width: 34px;
+          height: 4px;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.55);
+          opacity: 1;
+        }
+
+        .hero-splayd-slider .swiper-pagination-bullet-active {
+          background: #ff5f05;
+        }
+      `}</style>
     </section>
   );
 }
