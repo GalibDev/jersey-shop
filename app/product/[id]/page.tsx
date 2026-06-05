@@ -19,6 +19,11 @@ import { supabase } from "@/lib/supabase";
 import Header from "@/components/Header";
 import BottomNav from "@/components/BottomNav";
 import { useCartStore } from "@/store/cartStore";
+import {
+  SizeChartRow,
+  normalizeSizeChart,
+  toCmSizeChart,
+} from "@/lib/sizeChart";
 
 type Product = {
   id: number;
@@ -31,23 +36,10 @@ type Product = {
   stock: number;
   description?: string;
   details?: string;
+  size_chart?: SizeChartRow[];
 };
 
 type SizeUnit = "INCH" | "CM";
-
-const sizeChartInInches = [
-  { size: "M", chest: "39.25", length: "29", sleeve: "13.25" },
-  { size: "L", chest: "41", length: "29.75", sleeve: "13.5" },
-  { size: "XL", chest: "42.5", length: "30.5", sleeve: "14" },
-  { size: "XXL", chest: "44", length: "31.5", sleeve: "15.25" },
-];
-
-const sizeChartInCm = sizeChartInInches.map((item) => ({
-  size: item.size,
-  chest: (Number(item.chest) * 2.54).toFixed(1),
-  length: (Number(item.length) * 2.54).toFixed(1),
-  sleeve: (Number(item.sleeve) * 2.54).toFixed(1),
-}));
 
 export default function ProductDetailsPage() {
   const router = useRouter();
@@ -157,7 +149,11 @@ export default function ProductDetailsPage() {
     );
   }
 
-  const sizeChart = sizeUnit === "INCH" ? sizeChartInInches : sizeChartInCm;
+  const sizeChartInInches = normalizeSizeChart(product.size_chart);
+  const sizeChart =
+    sizeUnit === "INCH"
+      ? sizeChartInInches
+      : toCmSizeChart(sizeChartInInches);
 
   return (
     <>

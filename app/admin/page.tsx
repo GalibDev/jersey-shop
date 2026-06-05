@@ -15,6 +15,7 @@ import {
   LayoutGrid,
   ImageIcon,
   Eye,
+  Flame,
 } from "lucide-react";
 
 import { useRouter } from "next/navigation";
@@ -307,6 +308,23 @@ export default function AdminDashboard() {
 
               <p className="mt-1 text-sm text-slate-500">
                 Homepage sliders
+              </p>
+            </div>
+          </Link>
+
+          <Link href="/admin/offers">
+            <div className="rounded-3xl bg-white p-5 shadow-sm">
+              <Flame
+                size={34}
+                className="text-orange-500"
+              />
+
+              <h2 className="mt-4 text-lg font-extrabold text-slate-900">
+                Limited Offer
+              </h2>
+
+              <p className="mt-1 text-sm text-slate-500">
+                Homepage offer banner
               </p>
             </div>
           </Link>

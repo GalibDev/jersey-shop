@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 
 import { supabase } from "@/lib/supabase";
 import { reorderProductSerial } from "@/lib/productSerial";
+import { SizeChartRow, defaultSizeChart } from "@/lib/sizeChart";
 import AdminGuard from "@/components/AdminGuard";
 
 export default function AddProductPage() {
@@ -26,6 +27,8 @@ export default function AddProductPage() {
 
   const [description, setDescription] = useState("");
   const [details, setDetails] = useState("");
+  const [sizeChart, setSizeChart] =
+    useState<SizeChartRow[]>(defaultSizeChart);
 
   const [mainImageFile, setMainImageFile] = useState<File | null>(null);
   const [extraImageFiles, setExtraImageFiles] = useState<File[]>([]);
@@ -42,6 +45,18 @@ export default function AddProductPage() {
     }
 
     return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/${fileName}`;
+  };
+
+  const updateSizeChart = (
+    index: number,
+    field: keyof SizeChartRow,
+    value: string
+  ) => {
+    setSizeChart((prev) =>
+      prev.map((row, rowIndex) =>
+        rowIndex === index ? { ...row, [field]: value } : row
+      )
+    );
   };
 
   const handleAdd = async (e: React.FormEvent) => {
@@ -76,6 +91,7 @@ export default function AddProductPage() {
         stock: Number(stock),
         description,
         details,
+        size_chart: sizeChart,
       };
 
       const addResult = await supabase
@@ -88,7 +104,11 @@ export default function AddProductPage() {
       let addedProductId = addResult.data?.id as number | undefined;
 
       if (error && error.code === "PGRST204") {
-        const { serial: _serial, ...productDataWithoutSerial } = productData;
+        const {
+          serial: _serial,
+          size_chart: _sizeChart,
+          ...productDataWithoutSerial
+        } = productData;
         const retry = await supabase
           .from("products")
           .insert([productDataWithoutSerial])
@@ -246,6 +266,55 @@ export default function AddProductPage() {
             value={details}
             onChange={(e) => setDetails(e.target.value)}
           />
+
+          <div className="rounded-2xl border bg-white p-4">
+            <p className="font-bold text-slate-800">Size Chart</p>
+            <p className="mt-1 text-xs text-slate-500">
+              Inch value bosao. Customer site-e CM auto calculate hobe.
+            </p>
+
+            <div className="mt-4 space-y-3">
+              {sizeChart.map((row, index) => (
+                <div
+                  key={`${row.size}-${index}`}
+                  className="grid grid-cols-4 gap-2"
+                >
+                  <input
+                    className="h-12 rounded-xl border px-3 text-sm font-bold outline-none"
+                    placeholder="Size"
+                    value={row.size}
+                    onChange={(e) =>
+                      updateSizeChart(index, "size", e.target.value)
+                    }
+                  />
+                  <input
+                    className="h-12 rounded-xl border px-3 text-sm outline-none"
+                    placeholder="Chest"
+                    value={row.chest}
+                    onChange={(e) =>
+                      updateSizeChart(index, "chest", e.target.value)
+                    }
+                  />
+                  <input
+                    className="h-12 rounded-xl border px-3 text-sm outline-none"
+                    placeholder="Length"
+                    value={row.length}
+                    onChange={(e) =>
+                      updateSizeChart(index, "length", e.target.value)
+                    }
+                  />
+                  <input
+                    className="h-12 rounded-xl border px-3 text-sm outline-none"
+                    placeholder="Sleeve"
+                    value={row.sleeve}
+                    onChange={(e) =>
+                      updateSizeChart(index, "sleeve", e.target.value)
+                    }
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
 
           <button
             disabled={loading}
