@@ -9,11 +9,14 @@ import {
   ShoppingCart,
   Minus,
   Plus,
+  X,
+  ZoomIn,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { useRouter, useParams } from "next/navigation";
 
 import { supabase } from "@/lib/supabase";
+import Header from "@/components/Header";
 import BottomNav from "@/components/BottomNav";
 import { useCartStore } from "@/store/cartStore";
 
@@ -30,6 +33,22 @@ type Product = {
   details?: string;
 };
 
+type SizeUnit = "INCH" | "CM";
+
+const sizeChartInInches = [
+  { size: "M", chest: "39.25", length: "29", sleeve: "13.25" },
+  { size: "L", chest: "41", length: "29.75", sleeve: "13.5" },
+  { size: "XL", chest: "42.5", length: "30.5", sleeve: "14" },
+  { size: "XXL", chest: "44", length: "31.5", sleeve: "15.25" },
+];
+
+const sizeChartInCm = sizeChartInInches.map((item) => ({
+  size: item.size,
+  chest: (Number(item.chest) * 2.54).toFixed(1),
+  length: (Number(item.length) * 2.54).toFixed(1),
+  sleeve: (Number(item.sleeve) * 2.54).toFixed(1),
+}));
+
 export default function ProductDetailsPage() {
   const router = useRouter();
   const params = useParams();
@@ -42,6 +61,8 @@ export default function ProductDetailsPage() {
 
   const [size, setSize] = useState("M");
   const [quantity, setQuantity] = useState(1);
+  const [zoomOpen, setZoomOpen] = useState(false);
+  const [sizeUnit, setSizeUnit] = useState<SizeUnit>("INCH");
 
   const addToCartStore = useCartStore((state) => state.addToCart);
 
@@ -108,40 +129,63 @@ export default function ProductDetailsPage() {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-gray-100">
-        <p className="text-lg font-bold text-slate-600">Loading...</p>
-      </main>
+      <>
+        <Header />
+        <main className="flex min-h-screen items-center justify-center bg-gray-100">
+          <p className="text-lg font-bold text-slate-600">Loading...</p>
+        </main>
+      </>
     );
   }
 
   if (!product) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
-        <h1 className="text-3xl font-extrabold text-slate-900">
-          Product not found
-        </h1>
+      <>
+        <Header />
+        <main className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
+          <h1 className="text-3xl font-extrabold text-slate-900">
+            Product not found
+          </h1>
 
-        <Link href="/">
-          <button className="mt-5 rounded-xl bg-orange-500 px-6 py-3 font-bold text-white">
-            Go Home
-          </button>
-        </Link>
-      </main>
+          <Link href="/">
+            <button className="mt-5 rounded-xl bg-orange-500 px-6 py-3 font-bold text-white">
+              Go Home
+            </button>
+          </Link>
+        </main>
+      </>
     );
   }
 
+  const sizeChart = sizeUnit === "INCH" ? sizeChartInInches : sizeChartInCm;
+
   return (
+    <>
+    <Header />
     <main className="min-h-screen bg-gray-100 px-4 py-4 pb-36 md:pb-12">
       <div className="mx-auto max-w-6xl">
       <div className="relative rounded-3xl bg-white p-3 shadow-sm sm:p-4">
-        <div className="relative h-[300px] w-full overflow-hidden rounded-2xl bg-slate-50 sm:h-[420px]">
+        <button
+          type="button"
+          onClick={() => setZoomOpen(true)}
+          className="relative h-[300px] w-full overflow-hidden rounded-2xl bg-slate-50 sm:h-[420px]"
+        >
           <Image
             src={mainImage}
             alt={product.name}
             fill
             className="object-contain p-3"
           />
-        </div>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setZoomOpen(true)}
+          className="absolute bottom-24 right-6 flex items-center gap-2 rounded-full bg-slate-900/75 px-4 py-2 text-sm font-bold text-white shadow-lg backdrop-blur sm:bottom-28"
+        >
+          <ZoomIn size={18} />
+          Click to zoom
+        </button>
 
         <div className="mt-3 flex gap-3 overflow-x-auto pb-2">
           {galleryImages.map((img, index) => (
@@ -210,7 +254,7 @@ export default function ProductDetailsPage() {
                 key={item}
                 type="button"
                 onClick={() => setSize(item)}
-                className={`h-14 min-w-16 rounded-2xl border px-5 text-lg font-extrabold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${
+                className={`flex h-16 w-16 items-center justify-center rounded-full border text-lg font-extrabold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${
                   size === item
                     ? "border-orange-500 bg-orange-500 text-white shadow-orange-500/25"
                     : "border-slate-200 bg-white text-slate-700 hover:border-orange-300 hover:text-orange-500"
@@ -286,10 +330,96 @@ export default function ProductDetailsPage() {
             {product.details || "No details added."}
           </div>
         </div>
+
+        <div className="mt-5 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 sm:p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 className="text-2xl font-extrabold">
+              Size Chart
+            </h2>
+
+            <div className="flex rounded-2xl border border-slate-200 bg-slate-100 p-1">
+              {(["INCH", "CM"] as SizeUnit[]).map((unit) => (
+                <button
+                  key={unit}
+                  type="button"
+                  onClick={() => setSizeUnit(unit)}
+                  className={`h-11 min-w-20 rounded-xl px-4 text-sm font-extrabold transition ${
+                    sizeUnit === unit
+                      ? "bg-white text-orange-500 shadow-sm"
+                      : "text-slate-500 hover:text-slate-900"
+                  }`}
+                >
+                  {unit}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-4 overflow-hidden rounded-2xl border border-slate-200">
+            <table className="w-full border-collapse text-left text-sm sm:text-base">
+              <thead className="bg-slate-100 text-slate-900">
+                <tr>
+                  <th className="border-b border-r border-slate-200 px-3 py-3 font-extrabold">
+                    Size
+                  </th>
+                  <th className="border-b border-r border-slate-200 px-3 py-3 font-extrabold">
+                    Chest
+                  </th>
+                  <th className="border-b border-r border-slate-200 px-3 py-3 font-extrabold">
+                    Length
+                  </th>
+                  <th className="border-b border-slate-200 px-3 py-3 font-extrabold">
+                    Sleeve
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white text-slate-700">
+                {sizeChart.map((item) => (
+                  <tr key={item.size}>
+                    <td className="border-b border-r border-slate-100 px-3 py-3 font-extrabold text-slate-900">
+                      {item.size}
+                    </td>
+                    <td className="border-b border-r border-slate-100 px-3 py-3">
+                      {item.chest}
+                    </td>
+                    <td className="border-b border-r border-slate-100 px-3 py-3">
+                      {item.length}
+                    </td>
+                    <td className="border-b border-slate-100 px-3 py-3">
+                      {item.sleeve}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </section>
       </div>
 
       <BottomNav />
     </main>
+    {zoomOpen && (
+      <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/90 p-4">
+        <button
+          type="button"
+          onClick={() => setZoomOpen(false)}
+          className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-white text-slate-900 shadow-lg"
+        >
+          <X size={22} />
+        </button>
+
+        <div className="relative h-[82vh] w-full max-w-5xl">
+          <Image
+            src={mainImage}
+            alt={product.name}
+            fill
+            sizes="100vw"
+            className="object-contain"
+          />
+        </div>
+      </div>
+    )}
+    </>
   );
 }

@@ -54,28 +54,16 @@ export default function Header() {
         {/* LEFT */}
         <Link
           href="/"
-          className="flex items-center gap-2"
+          className="flex items-center"
         >
-          {/* LOGO */}
           <Image
             src="/logo.png"
             alt="NOVALO"
-            width={45}
-            height={45}
+            width={58}
+            height={58}
             priority
-            className="h-9 w-9 object-contain sm:h-11 sm:w-11"
+            className="h-11 w-11 object-contain sm:h-14 sm:w-14"
           />
-
-          {/* BRAND NAME */}
-          <h1 className="text-2xl font-extrabold tracking-wide sm:text-3xl">
-            <span className="text-slate-900">
-              NOVA
-            </span>
-
-            <span className="text-orange-500">
-              LO
-            </span>
-          </h1>
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">

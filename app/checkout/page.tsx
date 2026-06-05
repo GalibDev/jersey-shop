@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 
 import { useCartStore } from "@/store/cartStore";
 import { supabase } from "@/lib/supabase";
+import Header from "@/components/Header";
 import BottomNav from "@/components/BottomNav";
 
 export default function CheckoutPage() {
@@ -105,7 +106,9 @@ export default function CheckoutPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-100 px-4 py-5 pb-32 md:pb-12">
+    <>
+      <Header />
+      <main className="min-h-screen bg-gray-100 px-4 py-5 pb-32 md:pb-12">
       <div className="mx-auto max-w-7xl">
         <Link
           href="/cart"
@@ -334,6 +337,7 @@ export default function CheckoutPage() {
       </div>
 
       <BottomNav />
-    </main>
+      </main>
+    </>
   );
 }
