@@ -25,7 +25,7 @@ export default function CheckoutPage() {
   const cart = useCartStore((state) => state.cart);
   const clearCart = useCartStore((state) => state.clearCart);
 
-  const total = cart.reduce((acc, item) => acc + item.price, 0);
+  const subtotal = cart.reduce((acc, item) => acc + item.price, 0);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -35,8 +35,10 @@ export default function CheckoutPage() {
   const [paymentNote, setPaymentNote] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const whatsappNumber = "8801XXXXXXXXX";
-  const bkashNumber = "01XXXXXXXXX";
+  const deliveryCharge = area === "Dhaka City" ? 60 : 120;
+  const total = subtotal + deliveryCharge;
+  const whatsappNumber = "8801876882474";
+  const bkashNumber = "01876882474";
 
   const handleOrder = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,22 +65,33 @@ export default function CheckoutPage() {
 
     setLoading(true);
 
-    const { error } = await supabase.from("orders").insert([
-      {
-        customer_name: name.trim(),
-        phone: cleanPhone,
-        address: address.trim(),
-        products: cart,
-        total,
-        status: "Pending",
+    const orderData = {
+      customer_name: name.trim(),
+      phone: cleanPhone,
+      address: address.trim(),
+      products: cart,
+      total,
+      status: "Pending",
 
-        area,
-        payment_method: "bKash",
-        trx_id: trxId.trim(),
-        payment_note: paymentNote.trim(),
-        payment_status: trxId ? "Submitted" : "Pending",
-      },
-    ]);
+      area,
+      delivery_charge: deliveryCharge,
+      payment_method: "bKash",
+      trx_id: trxId.trim(),
+      payment_note: paymentNote.trim(),
+      payment_status: trxId ? "Submitted" : "Pending",
+    };
+
+    let { error } = await supabase.from("orders").insert([orderData]);
+
+    if (error && error.code === "PGRST204") {
+      const { delivery_charge: _deliveryCharge, ...orderDataWithoutCharge } =
+        orderData;
+      const retry = await supabase.from("orders").insert([
+        orderDataWithoutCharge,
+      ]);
+
+      error = retry.error;
+    }
 
     setLoading(false);
 
@@ -199,6 +212,12 @@ export default function CheckoutPage() {
                     </button>
                   ))}
                 </div>
+
+                <p className="mt-3 rounded-2xl bg-orange-50 px-4 py-3 text-sm font-bold text-orange-600">
+                  {area === "Dhaka City"
+                    ? "ঢাকার ভিতরে ডেলিভারি চার্জ ৬০/-"
+                    : "ঢাকার বাইরে ডেলিভারি চার্জ ১২০/-"}
+                </p>
               </div>
             </section>
 
@@ -301,6 +320,24 @@ export default function CheckoutPage() {
                 </span>
                 <span className="font-extrabold text-slate-900">
                   {area}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-slate-600">
+                  Product Price
+                </span>
+                <span className="font-extrabold text-slate-900">
+                  ৳{subtotal}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-slate-600">
+                  Delivery Charge
+                </span>
+                <span className="font-extrabold text-slate-900">
+                  ৳{deliveryCharge}
                 </span>
               </div>
 

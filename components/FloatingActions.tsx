@@ -13,7 +13,7 @@ export default function FloatingActions() {
   return (
     <div className="fixed bottom-36 right-3 z-40 flex flex-col gap-3 md:bottom-6 md:right-6 md:z-50">
       <a
-        href="https://wa.me/8801XXXXXXXXX"
+        href="https://wa.me/8801876882474"
         target="_blank"
         className="flex h-12 w-12 items-center justify-center rounded-full bg-green-500 text-white shadow-xl md:h-14 md:w-14"
       >

@@ -61,7 +61,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://wa.me/8801577088342"
+                href="https://wa.me/8801876882474"
                 target="_blank"
                 aria-label="WhatsApp"
                 className="flex h-11 w-11 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-green-950/20 transition hover:scale-110"
@@ -152,10 +152,10 @@ export default function Footer() {
                 />
 
                 <a
-                  href="tel:+8801577088342"
+                  href="tel:+8801876882474"
                   className="font-semibold hover:text-orange-500"
                 >
-                  +8801577088342
+                  +8801876882474
                 </a>
               </div>
 
@@ -198,7 +198,7 @@ export default function Footer() {
             {/* BUTTONS */}
             <div className="flex flex-wrap items-center justify-center gap-3">
               <a
-                href="https://wa.me/8801577088342"
+                href="https://wa.me/8801876882474"
                 target="_blank"
                 className="developer-contact-cta rounded-full bg-green-500 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-green-950/20 transition hover:-translate-y-1 hover:bg-green-600"
               >
